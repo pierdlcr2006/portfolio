@@ -159,8 +159,8 @@ export const education = {
 
 export const selectedWork = [
 	{
-		title: 'Backend empresarial para innovación',
-		titleEn: 'Enterprise innovation backend',
+		title: 'backend-developer-spring-boot',
+		titleEn: 'backend-developer-spring-boot',
 		company: 'TECSUP',
 		role: 'Desarrollador Backend',
 		roleEn: 'Backend Developer',
@@ -174,8 +174,8 @@ export const selectedWork = [
 		tags: ['Spring Boot', 'Arquitectura Hexagonal', 'AWS', 'Spring AI'],
 	},
 	{
-		title: 'Microservicios e IA en tiempo real',
-		titleEn: 'Real-time microservices and AI',
+		title: 'backend-developer-nestjs-fastapi',
+		titleEn: 'backend-developer-nestjs-fastapi',
 		company: 'TECSUP',
 		role: 'Pasante de Desarrollo Backend',
 		roleEn: 'Backend Developer Intern',
@@ -189,8 +189,8 @@ export const selectedWork = [
 		tags: ['NestJS', 'FastAPI', 'TTS', 'STT'],
 	},
 	{
-		title: 'Dashboards para servicios de RR. HH.',
-		titleEn: 'Dashboards for HR services',
+		title: 'frontend-developer-angular',
+		titleEn: 'frontend-developer-angular',
 		company: 'Stratedu',
 		role: 'Desarrollador Frontend',
 		roleEn: 'Frontend Developer',

@@ -18,10 +18,9 @@ const timelineWork = [...selectedWork].sort((a, b) => b.startDate.localeCompare(
 					</div>
 					<div class="timeline-marker" aria-hidden="true"></div>
 					<div class="project-content">
-						<p class="project-company">{work.company}</p>
 						<div class="project-details">
 							<h4 data-i18n data-es={work.title} data-en={work.titleEn}>{work.title}</h4>
-							<span data-i18n data-es={work.role} data-en={work.roleEn}>{work.role}</span>
+							<span>{work.company}</span>
 						</div>
 						<p class="project-description" data-i18n data-es={work.description} data-en={work.descriptionEn}>{work.description}</p>
 						<div class="project-tags">
@@ -138,14 +137,6 @@ const timelineWork = [...selectedWork].sort((a, b) => b.startDate.localeCompare(
 		grid-area: content;
 		min-width: 0;
 		padding-block: 0.25rem;
-	}
-
-	.project-company {
-		margin: 0 0 0.7rem;
-		color: var(--color-accent-secondary);
-		font-size: 0.68rem;
-		letter-spacing: 0.08em;
-		text-transform: uppercase;
 	}
 
 	.project-details {
