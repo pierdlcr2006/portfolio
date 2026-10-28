@@ -159,8 +159,8 @@ export const education = {
 
 export const selectedWork = [
 	{
-		title: 'backend-developer-spring-boot',
-		titleEn: 'backend-developer-spring-boot',
+		title: 'Desarrollador Backend – Spring Boot | AWS | Spring AI',
+		titleEn: 'Backend Developer – Spring Boot | AWS | Spring AI',
 		company: 'TECSUP',
 		role: 'Desarrollador Backend',
 		roleEn: 'Backend Developer',
@@ -174,8 +174,8 @@ export const selectedWork = [
 		tags: ['Spring Boot', 'Arquitectura Hexagonal', 'AWS', 'Spring AI'],
 	},
 	{
-		title: 'backend-developer-nestjs-fastapi',
-		titleEn: 'backend-developer-nestjs-fastapi',
+		title: 'Pasante Backend – NestJS | FastAPI | IA',
+		titleEn: 'Backend Developer Intern – NestJS | FastAPI | AI',
 		company: 'TECSUP',
 		role: 'Pasante de Desarrollo Backend',
 		roleEn: 'Backend Developer Intern',
@@ -189,8 +189,8 @@ export const selectedWork = [
 		tags: ['NestJS', 'FastAPI', 'TTS', 'STT'],
 	},
 	{
-		title: 'frontend-developer-angular',
-		titleEn: 'frontend-developer-angular',
+		title: 'Desarrollador Frontend – Angular | RESTful | UI',
+		titleEn: 'Frontend Developer – Angular | RESTful | UI',
 		company: 'Stratedu',
 		role: 'Desarrollador Frontend',
 		roleEn: 'Frontend Developer',
