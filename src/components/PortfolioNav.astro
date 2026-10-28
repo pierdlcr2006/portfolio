@@ -139,7 +139,7 @@ import { Toggle } from '@starwind-ui/astro/toggle';
 		languageToggle?.setAttribute('aria-pressed', String(language === 'en'));
 		languageToggle?.setAttribute('data-language', language);
 		languageToggle?.setAttribute('aria-label', language === 'es' ? 'Cambiar a inglés' : 'Switch to Spanish');
-		document.title = language === 'es' ? 'Piero de la Cruz Palpa — Desarrollador Backend' : 'Piero de la Cruz Palpa — Backend Developer';
+		document.title = 'Piero - Portafolio';
 
 		try {
 			localStorage.setItem('portfolio-language', language);
