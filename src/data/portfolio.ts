@@ -41,20 +41,50 @@ export const services = [
 	{
 		title: 'Desarrollo backend',
 		titleEn: 'Backend development',
-		items: ['Java, Spring Boot, NestJS y FastAPI', 'APIs RESTful con DTOs, mappers, validaciones, paginación y filtros'],
-		itemsEn: ['Java, Spring Boot, NestJS, and FastAPI', 'RESTful APIs with DTOs, mappers, validation, pagination, and filters'],
+		items: [
+			'Java, Spring Boot, NestJS y FastAPI',
+			'APIs RESTful con DTOs, mappers, validaciones, paginación y filtros',
+			'Clean Architecture, Arquitectura Hexagonal y diseño de microservicios escalables',
+			'Autenticación y autorización con JWT, OAuth2, MFA, RBAC y Redis',
+		],
+		itemsEn: [
+			'Java, Spring Boot, NestJS, and FastAPI',
+			'RESTful APIs with DTOs, mappers, validation, pagination, and filters',
+			'Clean Architecture, Hexagonal Architecture, and scalable microservice design',
+			'Authentication and authorization with JWT, OAuth2, MFA, RBAC, and Redis',
+		],
 	},
 	{
 		title: 'Desarrollo frontend',
 		titleEn: 'Frontend development',
-		items: ['Angular, interfaces web y dashboards para distintos perfiles', 'Componentes reutilizables, arquitectura modular e integración con APIs RESTful'],
-		itemsEn: ['Angular, web interfaces, and dashboards for different profiles', 'Reusable components, modular architecture, and RESTful API integration'],
+		items: [
+			'Angular, interfaces web y dashboards para distintos perfiles',
+			'Componentes reutilizables, arquitectura modular e integración con APIs RESTful',
+			'Flujos de navegación y experiencias adaptadas para administradores, profesores y consultores',
+			'Organización de vistas y componentes orientada a la escalabilidad y el mantenimiento',
+		],
+		itemsEn: [
+			'Angular, web interfaces, and dashboards for different profiles',
+			'Reusable components, modular architecture, and RESTful API integration',
+			'Navigation flows and experiences tailored to administrators, teachers, and consultants',
+		'Views and components organized for scalability and maintainability',
+		],
 	},
 	{
 		title: 'Integraciones con IA',
 		titleEn: 'AI integrations',
-		items: ['Spring AI, Google Gemini, embeddings multimodales y búsqueda vectorial con pgvector', 'Chat, TTS y STT en tiempo real junto con integraciones AWS S3 y AWS SES'],
-		itemsEn: ['Spring AI, Google Gemini, multimodal embeddings, and vector search with pgvector', 'Real-time chat, TTS, and STT with AWS S3 and AWS SES integrations'],
+		items: [
+			'Spring AI, Google Gemini, embeddings multimodales y búsqueda vectorial con pgvector',
+			'Chat, TTS y STT en tiempo real junto con integraciones AWS S3 y AWS SES',
+			'Indexación de documentos y consultas sobre postulaciones mediante chat con streaming',
+			'Automatización de flujos conversacionales para evaluación, asistencia y gestión académica',
+		],
+		itemsEn: [
+			'Spring AI, Google Gemini, multimodal embeddings, and vector search with pgvector',
+			'Real-time chat, TTS, and STT with AWS S3 and AWS SES integrations',
+			'Document indexing and streaming chat queries over applications',
+		'Automation of conversational flows for evaluation, assistance, and academic management',
+		],
 	},
 ];
 
