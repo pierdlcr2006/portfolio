@@ -49,16 +49,16 @@ export const services = [
 		itemsEn: ['Java, Spring Boot, NestJS, and FastAPI', 'RESTful APIs with DTOs, mappers, validation, pagination, and filters'],
 	},
 	{
-		title: 'Arquitectura y seguridad',
-		titleEn: 'Architecture and security',
-		items: ['Clean Architecture, Arquitectura Hexagonal y microservicios', 'JWT, refresh tokens, OAuth2, MFA, RBAC y Redis'],
-		itemsEn: ['Clean Architecture, Hexagonal Architecture, and microservices', 'JWT, refresh tokens, OAuth2, MFA, RBAC, and Redis'],
+		title: 'Desarrollo frontend',
+		titleEn: 'Frontend development',
+		items: ['Angular, interfaces web y dashboards para distintos perfiles', 'Componentes reutilizables, arquitectura modular e integración con APIs RESTful'],
+		itemsEn: ['Angular, web interfaces, and dashboards for different profiles', 'Reusable components, modular architecture, and RESTful API integration'],
 	},
 	{
-		title: 'IA, datos y nube',
-		titleEn: 'AI, data, and cloud',
-		items: ['Spring AI, Google Gemini, embeddings y búsqueda vectorial con pgvector', 'AWS S3, AWS SES, PostgreSQL y procesamiento de voz TTS/STT'],
-		itemsEn: ['Spring AI, Google Gemini, embeddings, and vector search with pgvector', 'AWS S3, AWS SES, PostgreSQL, and TTS/STT voice processing'],
+		title: 'Integraciones con IA',
+		titleEn: 'AI integrations',
+		items: ['Spring AI, Google Gemini, embeddings multimodales y búsqueda vectorial con pgvector', 'Chat, TTS y STT en tiempo real junto con integraciones AWS S3 y AWS SES'],
+		itemsEn: ['Spring AI, Google Gemini, multimodal embeddings, and vector search with pgvector', 'Real-time chat, TTS, and STT with AWS S3 and AWS SES integrations'],
 	},
 ];
 
