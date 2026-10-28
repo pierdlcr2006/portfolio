@@ -2,7 +2,6 @@ export const profile = {
 	name: 'Piero de la Cruz Palpa',
 	role: 'Desarrollador de Software',
 	specialty: 'Desarrollador Backend',
-	email: 'piero.delacruz.p.06@gmail.com',
 	linkedin: 'https://www.linkedin.com/in/piero-de-la-cruz-p/',
 	linkedinLabel: 'linkedin.com/in/piero-de-la-cruz-p',
 	summary:
