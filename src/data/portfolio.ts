@@ -158,14 +158,22 @@ export const selectedWork = [
 		period: '17 de abril de 2026 — 16 de diciembre de 2026',
 		periodEn: 'April 17, 2026 — December 16, 2026',
 		description: `Implementé el backend empresarial del área de innovación de TECSUP para gestionar eventos, postulaciones, proyectos, equipos y usuarios, incorporando inteligencia artificial para evaluar propuestas.
+
 Diseñé una arquitectura modular basada en Clean Architecture y Arquitectura Hexagonal, separando dominio, aplicación, infraestructura y presentación para facilitar el mantenimiento y la escalabilidad.
+
 Implementé autenticación y control de acceso con Spring Security, JWT, refresh tokens, OAuth2 con Google, MFA, RBAC y sesiones administradas con Redis.
+
 Integré AWS S3 y AWS SES para gestionar documentos y notificaciones, y desarrollé consultas con Spring AI, Google Gemini, embeddings multimodales y pgvector mediante chat con streaming.
+
 Documenté endpoints REST con Swagger/OpenAPI y gestioné migraciones, restricciones e índices de base de datos con Flyway.`,
 		descriptionEn: `I implemented the enterprise backend for TECSUP's innovation area to manage events, applications, projects, teams, and users, adding artificial intelligence capabilities for proposal evaluation.
+
 I designed a modular architecture based on Clean Architecture and Hexagonal Architecture, separating domain, application, infrastructure, and presentation to improve maintainability and scalability.
+
 I implemented authentication and access control with Spring Security, JWT, refresh tokens, Google OAuth2, MFA, RBAC, and Redis-managed sessions.
+
 I integrated AWS S3 and AWS SES to manage documents and notifications, and built queries with Spring AI, Google Gemini, multimodal embeddings, and pgvector through streaming chat.
+
 I documented REST endpoints with Swagger/OpenAPI and managed database migrations, constraints, and indexes with Flyway.`,
 		tags: ['Spring Boot', 'Arquitectura Hexagonal', 'AWS', 'Spring AI'],
 	},
@@ -179,12 +187,18 @@ I documented REST endpoints with Swagger/OpenAPI and managed database migrations
 		period: '20 de diciembre de 2025 — 1 de abril de 2026',
 		periodEn: 'December 20, 2025 — April 1, 2026',
 		description: `Diseñé e implementé una arquitectura backend basada en microservicios con NestJS y FastAPI, orientada a una operación escalable y de alta disponibilidad.
+
 Desarrollé módulos de autenticación, gestión académica, chat inteligente y control de acceso por roles.
+
 Integré modelos de inteligencia artificial para chat, TTS y STT, optimizando la latencia y la experiencia de interacción por voz en tiempo real.
+
 Diseñé flujos de interacción para profesores y dashboards administrativos, conectando las capacidades de IA con los procesos académicos.`,
 		descriptionEn: `I designed and implemented a microservices-based backend architecture with NestJS and FastAPI, aimed at scalable and highly available operation.
+
 I developed authentication, academic management, intelligent chat, and role-based access control modules.
+
 I integrated artificial intelligence models for chat, TTS, and STT, optimizing latency and the real-time voice interaction experience.
+
 I designed interaction flows for teachers and administrative dashboards, connecting AI capabilities with academic processes.`,
 		tags: ['NestJS', 'FastAPI', 'TTS', 'STT'],
 	},
@@ -198,12 +212,18 @@ I designed interaction flows for teachers and administrative dashboards, connect
 		period: '1 de marzo de 2026 — 30 de junio de 2026',
 		periodEn: 'March 1, 2026 — June 30, 2026',
 		description: `Desarrollé interfaces web y dashboards en Angular para los perfiles de Administrador, Profesor y Consultor.
+
 Integré las vistas con servicios RESTful del backend, asegurando una comunicación clara entre cliente y servidor.
+
 Construí componentes reutilizables y estructuras modulares para facilitar la escalabilidad y el mantenimiento.
+
 Colaboré en la definición de flujos de navegación, estructura de vistas y mejoras de usabilidad.`,
 		descriptionEn: `I developed web interfaces and Angular dashboards for Administrator, Professor, and Consultant profiles.
+
 I integrated the views with RESTful backend services, ensuring clear communication between client and server.
+
 I built reusable components and modular structures to support scalability and maintainability.
+
 I collaborated on navigation flows, view structure, and usability improvements.`,
 		tags: ['Angular', 'RESTful', 'Componentes reutilizables'],
 	},
