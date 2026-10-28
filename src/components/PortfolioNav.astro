@@ -36,7 +36,9 @@ import { Toggle } from '@starwind-ui/astro/toggle';
 			</li>
 			<li class="language-item">
 				<Toggle.Root id="language-toggle" class="language-toggle" aria-label="Cambiar a inglés">
-					ES / EN
+					<span class="language-option language-option-es" aria-hidden="true">ES</span>
+					<span class="language-divider" aria-hidden="true">/</span>
+					<span class="language-option language-option-en" aria-hidden="true">EN</span>
 				</Toggle.Root>
 			</li>
 		</ul>
@@ -83,19 +85,33 @@ import { Toggle } from '@starwind-ui/astro/toggle';
 		});
 	});
 
-	const sections = document.querySelectorAll<HTMLElement>('section[id]');
-	const navLinks = document.querySelectorAll<HTMLAnchorElement>('#main-nav a[href^="#"]');
-	const observer = new IntersectionObserver(
-		(entries) => {
-			entries.forEach((entry) => {
-				if (!entry.isIntersecting) return;
-				navLinks.forEach((link) => link.classList.remove('active'));
-				document.querySelector<HTMLAnchorElement>(`#main-nav a[href="#${entry.target.id}"]`)?.classList.add('active');
-			});
-		},
-		{ threshold: 0.6 },
-	);
-	sections.forEach((section) => observer.observe(section));
+	const navLinks = Array.from(document.querySelectorAll<HTMLAnchorElement>('#main-nav a[href^="#"]'));
+	const navigableSections = navLinks
+		.map((link) => document.querySelector<HTMLElement>(link.getAttribute('href') ?? ''))
+		.filter((section): section is HTMLElement => section !== null);
+	let activeSectionRaf: number | null = null;
+
+	const updateActiveSection = () => {
+		const activationLine = window.innerHeight * 0.38;
+		let activeSection = navigableSections[0];
+
+		for (const section of navigableSections) {
+			if (section.getBoundingClientRect().top <= activationLine) activeSection = section;
+		}
+
+		navLinks.forEach((link) => {
+			link.classList.toggle('active', link.getAttribute('href') === `#${activeSection?.id}`);
+		});
+		activeSectionRaf = null;
+	};
+
+	const scheduleActiveSectionUpdate = () => {
+		if (activeSectionRaf === null) activeSectionRaf = requestAnimationFrame(updateActiveSection);
+	};
+
+	window.addEventListener('scroll', scheduleActiveSectionUpdate, { passive: true });
+	window.addEventListener('resize', scheduleActiveSectionUpdate);
+	updateActiveSection();
 
 	type Language = 'es' | 'en';
 	let currentLanguage: Language = 'es';
@@ -121,6 +137,7 @@ import { Toggle } from '@starwind-ui/astro/toggle';
 		});
 
 		languageToggle?.setAttribute('aria-pressed', String(language === 'en'));
+		languageToggle?.setAttribute('data-language', language);
 		languageToggle?.setAttribute('aria-label', language === 'es' ? 'Cambiar a inglés' : 'Switch to Spanish');
 		document.title = language === 'es' ? 'Piero de la Cruz Palpa — Desarrollador Backend' : 'Piero de la Cruz Palpa — Backend Developer';
 
@@ -270,6 +287,20 @@ import { Toggle } from '@starwind-ui/astro/toggle';
 		border-color: var(--color-accent-secondary);
 		background: rgba(168, 126, 255, 0.1);
 		color: var(--color-text);
+	}
+
+	.language-option {
+		transition: color var(--transition-fast), font-weight var(--transition-fast);
+	}
+
+	.language-toggle[data-language='es'] .language-option-es,
+	.language-toggle[data-language='en'] .language-option-en {
+		color: var(--color-accent);
+		font-weight: 700;
+	}
+
+	.language-divider {
+		color: var(--color-text-muted);
 	}
 
 	.nav-icon {
