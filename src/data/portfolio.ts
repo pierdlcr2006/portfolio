@@ -33,8 +33,6 @@ export const techLogos = [
 	{ name: 'Node.js', route: 'https://svgl.app/library/nodejs.svg' },
 	{ name: 'Angular', route: 'https://svgl.app/library/angular.svg' },
 	{ name: 'NestJS', route: 'https://svgl.app/library/nestjs.svg' },
-	{ name: 'PostgreSQL', route: 'https://svgl.app/library/postgresql.svg' },
-	{ name: 'Redis', route: 'https://svgl.app/library/redis.svg' },
 	{ name: 'AWS', route: 'https://svgl.app/library/aws_dark.svg' },
 ];
 
