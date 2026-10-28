@@ -1,5 +1,5 @@
 ---
-import { education, profile } from '../data/portfolio';
+import { profile } from '../data/portfolio';
 ---
 
 <section class="hero container" id="home" aria-labelledby="hero-title">
@@ -21,19 +21,12 @@ import { education, profile } from '../data/portfolio';
 			</div>
 		</div>
 	</div>
-
-	<div class="profile-meta">
-		<span data-i18n data-es={education.institution} data-en={education.institutionEn}>{education.institution}</span>
-		<span data-i18n data-es={education.program} data-en={education.programEn}>{education.program}</span>
-		<span data-i18n data-es={education.language} data-en={education.languageEn}>{education.language}</span>
-	</div>
 </section>
 
 <style>
 	.hero {
-		min-height: 100vh;
 		padding-top: clamp(8rem, 16vh, 11rem);
-		padding-bottom: clamp(5rem, 11vw, 8rem);
+		padding-bottom: clamp(2.5rem, 5vw, 4rem);
 	}
 
 	.hero-intro {
@@ -110,24 +103,10 @@ import { education, profile } from '../data/portfolio';
 		stroke-width: 1.6;
 	}
 
-	.profile-meta {
-		display: flex;
-		flex-wrap: wrap;
-		gap: 0.5rem 2rem;
-		margin-top: 1.5rem;
-		color: var(--color-text-muted);
-		font-size: 0.68rem;
-	}
-
-	.profile-meta span + span::before {
-		margin-right: 2rem;
-		color: var(--color-accent);
-		content: '/';
-	}
-
 	@media (max-width: 760px) {
 		.hero {
 			padding-top: 8rem;
+			padding-bottom: 2.5rem;
 		}
 
 		.hero-main {
@@ -139,12 +118,5 @@ import { education, profile } from '../data/portfolio';
 			font-size: clamp(3.1rem, 16vw, 5.8rem);
 		}
 
-		.profile-meta {
-			line-height: 1.8;
-		}
-
-		.profile-meta span + span::before {
-			margin-right: 0.7rem;
-		}
 	}
 </style>
