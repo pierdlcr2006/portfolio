@@ -164,6 +164,7 @@ export const selectedWork = [
 		company: 'TECSUP',
 		role: 'Desarrollador Backend',
 		roleEn: 'Backend Developer',
+		startDate: '2026-04-17',
 		period: '17 de abril de 2026 — 16 de diciembre de 2026',
 		periodEn: 'April 17, 2026 — December 16, 2026',
 		description:
@@ -178,6 +179,7 @@ export const selectedWork = [
 		company: 'TECSUP',
 		role: 'Pasante de Desarrollo Backend',
 		roleEn: 'Backend Developer Intern',
+		startDate: '2025-12-20',
 		period: '20 de diciembre de 2025 — 1 de abril de 2026',
 		periodEn: 'December 20, 2025 — April 1, 2026',
 		description:
@@ -192,6 +194,7 @@ export const selectedWork = [
 		company: 'Stratedu',
 		role: 'Desarrollador Frontend',
 		roleEn: 'Frontend Developer',
+		startDate: '2026-03-01',
 		period: '1 de marzo de 2026 — 30 de junio de 2026',
 		periodEn: 'March 1, 2026 — June 30, 2026',
 		description:
