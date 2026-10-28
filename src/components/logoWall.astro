@@ -29,8 +29,10 @@ const technologies = techLogos;
 <style>
 	.logo-wall {
 		position: relative;
+		width: calc(100% - 2 * var(--page-gutter));
+		margin-inline: auto;
 		overflow-x: hidden;
-		padding: 2rem var(--page-gutter);
+		padding-block: 2rem;
 	}
 
 	.logo-wall-fade {
