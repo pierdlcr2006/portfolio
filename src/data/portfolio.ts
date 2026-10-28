@@ -4,6 +4,7 @@ export const profile = {
 	specialty: 'Desarrollador Backend',
 	linkedin: 'https://www.linkedin.com/in/piero-de-la-cruz-p/',
 	linkedinLabel: 'linkedin.com/in/piero-de-la-cruz-p',
+	github: 'https://github.com/',
 	summary:
 		'Egresado de Diseño y Desarrollo de Software en TECSUP. Con capacidad para resolver problemas, trabajar en equipo y adaptarme a entornos dinámicos. Poseo nivel intermedio de inglés y un sólido dominio de Java, Node.js y TypeScript. Enfocado en el desarrollo de servicios RESTful. Comprometido con el aprendizaje continuo y la construcción de soluciones eficientes y escalables.',
 	summaryEn:
