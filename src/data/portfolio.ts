@@ -30,15 +30,11 @@ export const techLogos = [
 	{ name: 'Spring', route: 'https://svgl.app/library/spring.svg' },
 	{ name: 'TypeScript', route: 'https://svgl.app/library/typescript.svg' },
 	{ name: 'Node.js', route: 'https://svgl.app/library/nodejs.svg' },
-	{ name: 'Python', route: 'https://svgl.app/library/python.svg' },
 	{ name: 'Angular', route: 'https://svgl.app/library/angular.svg' },
 	{ name: 'NestJS', route: 'https://svgl.app/library/nestjs.svg' },
-	{ name: 'FastAPI', route: 'https://svgl.app/library/fastapi.svg' },
 	{ name: 'PostgreSQL', route: 'https://svgl.app/library/postgresql.svg' },
 	{ name: 'Redis', route: 'https://svgl.app/library/redis.svg' },
 	{ name: 'AWS', route: 'https://svgl.app/library/aws_dark.svg' },
-	{ name: 'Google Gemini', route: 'https://svgl.app/library/gemini.svg' },
-	{ name: 'Swagger', route: 'https://svgl.app/library/swagger.svg' },
 ];
 
 export const services = [
