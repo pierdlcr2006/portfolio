@@ -1,0 +1,115 @@
+---
+import { techLogos } from '../data/portfolio';
+
+const technologies = techLogos;
+---
+
+<section class="logo-wall" aria-label="Tecnologías con las que trabajo">
+	<div class="logo-wall-fade logo-wall-fade-left" aria-hidden="true"></div>
+	<div class="logo-wall-fade logo-wall-fade-right" aria-hidden="true"></div>
+
+	<div class="logo-wall-track">
+		{[...technologies, ...technologies].map((technology, index) => (
+			<div class="logo-wall-item" aria-hidden={index >= technologies.length ? 'true' : 'false'}>
+				<img
+					src={technology.route}
+					alt={index >= technologies.length ? '' : technology.name}
+					class="logo-wall-icon"
+					width="30"
+					height="30"
+					loading={index < technologies.length ? 'eager' : 'lazy'}
+					decoding="async"
+				/>
+				<span>{technology.name}</span>
+			</div>
+		))}
+	</div>
+</section>
+
+<style>
+	.logo-wall {
+		position: relative;
+		overflow-x: hidden;
+		padding-block: 2rem;
+	}
+
+	.logo-wall-fade {
+		position: absolute;
+		top: 0;
+		bottom: 0;
+		z-index: 2;
+		width: 8rem;
+		pointer-events: none;
+	}
+
+	.logo-wall-fade-left {
+		left: 0;
+		background: linear-gradient(to right, var(--color-bg), transparent);
+	}
+
+	.logo-wall-fade-right {
+		right: 0;
+		background: linear-gradient(to left, var(--color-bg), transparent);
+	}
+
+	.logo-wall-track {
+		display: flex;
+		width: max-content;
+		will-change: transform;
+		animation: logo-wall-scroll 60s linear infinite;
+	}
+
+	.logo-wall-item {
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+		padding-right: 3rem;
+		transition: transform var(--transition-standard);
+	}
+
+	.logo-wall-item:hover {
+		transform: scale(1.04);
+	}
+
+	.logo-wall-icon {
+		width: 1.75rem;
+		height: 1.75rem;
+		object-fit: contain;
+		opacity: 0.6;
+		transition: transform var(--transition-standard), opacity var(--transition-standard);
+	}
+
+	.logo-wall-item:hover .logo-wall-icon {
+		opacity: 1;
+		transform: scale(1.1);
+	}
+
+	.logo-wall-item span {
+		color: var(--color-text-secondary);
+		font-size: 1.05rem;
+		font-weight: 500;
+		white-space: nowrap;
+	}
+
+	@keyframes logo-wall-scroll {
+		0% {
+			transform: translate3d(0, 0, 0);
+		}
+
+		100% {
+			transform: translate3d(-50%, 0, 0);
+		}
+	}
+
+	@media (min-width: 768px) {
+		.logo-wall-track {
+			animation-duration: 50s;
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.logo-wall-track {
+			animation-play-state: paused;
+		}
+	}
+</style>

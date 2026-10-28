@@ -1,0 +1,104 @@
+<div class="letter-glitch" data-letter-glitch aria-hidden="true">
+	<canvas></canvas>
+	<div class="letter-glitch-vignette"></div>
+</div>
+
+<script>
+	const glitchRoot = document.querySelector<HTMLElement>('[data-letter-glitch]');
+	const glitchCanvas = glitchRoot?.querySelector<HTMLCanvasElement>('canvas');
+
+	if (glitchRoot && glitchCanvas) {
+		const glitchContext = glitchCanvas.getContext('2d');
+		const glitchColors = ['#5e4491', '#a476ff', '#241a38'];
+		const symbols = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%&*()-_+=/[]{}:;<>0123456789';
+		const cellWidth = 10;
+		const cellHeight = 20;
+		let columns = 0;
+		let rows = 0;
+		let animationFrame = 0;
+		let lastGlitch = 0;
+
+		const randomSymbol = () => symbols[Math.floor(Math.random() * symbols.length)];
+		const randomColor = () => glitchColors[Math.floor(Math.random() * glitchColors.length)];
+
+		const resize = () => {
+			const bounds = glitchRoot.getBoundingClientRect();
+			const pixelRatio = Math.min(window.devicePixelRatio || 1, 2);
+			glitchCanvas.width = bounds.width * pixelRatio;
+			glitchCanvas.height = bounds.height * pixelRatio;
+			glitchCanvas.style.width = `${bounds.width}px`;
+			glitchCanvas.style.height = `${bounds.height}px`;
+			glitchContext?.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
+			columns = Math.ceil(bounds.width / cellWidth);
+			rows = Math.ceil(bounds.height / cellHeight);
+		};
+
+		const draw = (timestamp = 0) => {
+			if (!glitchContext) return;
+			const bounds = glitchRoot.getBoundingClientRect();
+			if (timestamp - lastGlitch > 33) {
+				glitchContext.clearRect(0, 0, bounds.width, bounds.height);
+				glitchContext.font = '16px SFMono-Regular, Consolas, monospace';
+				glitchContext.textBaseline = 'top';
+
+				for (let index = 0; index < columns * rows; index += 1) {
+					if (Math.random() > 0.12) continue;
+					const x = (index % columns) * cellWidth;
+					const y = Math.floor(index / columns) * cellHeight;
+					glitchContext.fillStyle = randomColor();
+					glitchContext.globalAlpha = Math.random() * 0.75 + 0.25;
+					glitchContext.fillText(randomSymbol(), x, y);
+				}
+				glitchContext.globalAlpha = 1;
+				lastGlitch = timestamp;
+			}
+
+			animationFrame = requestAnimationFrame(draw);
+		};
+
+		const observer = new ResizeObserver(resize);
+		observer.observe(glitchRoot);
+		resize();
+		draw();
+
+		window.addEventListener('pagehide', () => {
+			cancelAnimationFrame(animationFrame);
+			observer.disconnect();
+		});
+	}
+</script>
+
+<style>
+	.letter-glitch {
+		position: relative;
+		width: 290px;
+		height: 292px;
+		overflow: hidden;
+		border-radius: var(--radius-md);
+		background: var(--color-bg);
+		isolation: isolate;
+	}
+
+	.letter-glitch canvas,
+	.letter-glitch-vignette {
+		position: absolute;
+		inset: 0;
+		width: 100%;
+		height: 100%;
+	}
+
+	.letter-glitch canvas {
+		display: block;
+	}
+
+	.letter-glitch-vignette {
+		pointer-events: none;
+		background: radial-gradient(circle, rgba(0, 0, 0, 0.02) 0%, rgba(0, 0, 0, 0.8) 100%);
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.letter-glitch canvas {
+			opacity: 0.75;
+		}
+	}
+</style>

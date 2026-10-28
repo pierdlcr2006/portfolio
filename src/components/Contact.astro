@@ -1,0 +1,182 @@
+---
+import { profile } from '../data/portfolio';
+---
+
+<section class="contact section" id="contact" aria-labelledby="contact-title">
+	<div class="container contact-layout">
+		<div class="contact-heading">
+			<p class="section-kicker" data-i18n data-es="Hablemos" data-en="Let's talk">Hablemos</p>
+			<h2 id="contact-title" data-i18n data-es="Contacto" data-en="Contact">Contacto</h2>
+		</div>
+
+		<div class="contact-body">
+			<p class="contact-copy" data-i18n data-es="¿Tienes una idea, un producto o un reto backend? Escríbeme y conversemos." data-en="Do you have an idea, a product, or a backend challenge? Write to me and let's talk.">¿Tienes una idea, un producto o un reto backend? Escríbeme y conversemos.</p>
+			<p class="contact-location" data-i18n data-es="Disponible por correo y LinkedIn." data-en="Available by email and LinkedIn.">Disponible por correo y LinkedIn.</p>
+
+			<form class="contact-form" action={`mailto:${profile.email}`} method="post" enctype="text/plain">
+				<div class="form-field">
+					<label for="name" data-i18n data-es="Nombre" data-en="Name">Nombre</label>
+					<input id="name" name="name" type="text" autocomplete="name" placeholder="Tu nombre" data-placeholder-es="Tu nombre" data-placeholder-en="Your name" required />
+				</div>
+				<div class="form-field">
+					<label for="email" data-i18n data-es="Correo electrónico" data-en="Email">Correo electrónico</label>
+					<input id="email" name="email" type="email" autocomplete="email" placeholder="tu@correo.com" data-placeholder-es="tu@correo.com" data-placeholder-en="you@email.com" required />
+				</div>
+				<div class="form-field">
+					<label for="message" data-i18n data-es="Mensaje" data-en="Message">Mensaje</label>
+					<textarea id="message" name="message" rows="4" placeholder="Cuéntame sobre tu proyecto" data-placeholder-es="Cuéntame sobre tu proyecto" data-placeholder-en="Tell me about your project" required></textarea>
+				</div>
+				<button class="submit-button" type="submit"><span data-i18n data-es="Enviar mensaje" data-en="Send message">Enviar mensaje</span> <span aria-hidden="true">↗</span></button>
+				<p class="form-note" data-i18n data-es="Se abrirá tu cliente de correo para completar el envío." data-en="Your email client will open to complete the message.">Se abrirá tu cliente de correo para completar el envío.</p>
+			</form>
+
+			<div class="contact-links">
+				<a href={`mailto:${profile.email}`}>{profile.email}</a>
+				<a href={profile.linkedin} target="_blank" rel="noreferrer">LinkedIn ↗</a>
+			</div>
+		</div>
+	</div>
+</section>
+
+<style>
+	.contact {
+		background: rgba(255, 255, 255, 0.012);
+	}
+
+	.contact-layout {
+		display: grid;
+		grid-template-columns: minmax(240px, 0.7fr) minmax(0, 1.3fr);
+		gap: clamp(3rem, 10vw, 10rem);
+	}
+
+	.section-kicker {
+		margin: 0 0 0.75rem;
+		color: var(--color-accent-secondary);
+		font-size: 0.72rem;
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
+	}
+
+	h2 {
+		margin: 0;
+		font-size: clamp(3rem, 8vw, 7rem);
+		font-weight: 500;
+		letter-spacing: -0.11em;
+		line-height: 0.9;
+	}
+
+	.contact-body {
+		max-width: 620px;
+	}
+
+	.contact-copy {
+		margin: 0;
+		color: var(--color-text-secondary);
+		font-size: clamp(1rem, 1.7vw, 1.15rem);
+		line-height: 1.7;
+	}
+
+	.contact-location {
+		margin: 0.7rem 0 2.5rem;
+		color: var(--color-text-muted);
+		font-size: 0.75rem;
+	}
+
+	.contact-form {
+		display: grid;
+		gap: 1.15rem;
+	}
+
+	.form-field {
+		display: grid;
+		gap: 0.5rem;
+	}
+
+	label {
+		color: var(--color-text-muted);
+		font-size: 0.7rem;
+	}
+
+	input,
+	textarea {
+		width: 100%;
+		padding: 0.85rem 0;
+		border: 0;
+		border-bottom: 1px solid var(--color-border);
+		border-radius: 0;
+		outline: 0;
+		background: transparent;
+		color: var(--color-text);
+		font-size: 0.85rem;
+		line-height: 1.5;
+		resize: vertical;
+		transition: border-color var(--transition-fast);
+	}
+
+	input::placeholder,
+	textarea::placeholder {
+		color: #666660;
+	}
+
+	input:focus,
+	textarea:focus {
+		border-color: var(--color-accent);
+	}
+
+	.submit-button {
+		justify-self: start;
+		margin-top: 0.5rem;
+		padding: 0.8rem 1rem;
+		border: 1px solid var(--color-border-strong);
+		border-radius: var(--radius-sm);
+		background: transparent;
+		color: var(--color-text);
+		font-size: 0.78rem;
+		cursor: pointer;
+		transition: border-color var(--transition-fast), color var(--transition-fast), transform var(--transition-fast);
+	}
+
+	.submit-button:hover {
+		transform: translateY(-2px);
+		border-color: var(--color-accent);
+		color: var(--color-accent);
+	}
+
+	.submit-button span {
+		margin-left: 0.5rem;
+		color: var(--color-accent);
+	}
+
+	.form-note {
+		margin: -0.2rem 0 0;
+		color: var(--color-text-muted);
+		font-size: 0.65rem;
+	}
+
+	.contact-links {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 1.5rem;
+		margin-top: 2.5rem;
+		padding-top: 1.2rem;
+		border-top: 1px solid var(--color-border);
+		font-size: 0.72rem;
+	}
+
+	.contact-links a {
+		color: var(--color-text-muted);
+		text-decoration: none;
+		transition: color var(--transition-fast);
+	}
+
+	.contact-links a:hover {
+		color: var(--color-accent);
+	}
+
+	@media (max-width: 760px) {
+		.contact-layout {
+			grid-template-columns: 1fr;
+			gap: 3rem;
+		}
+	}
+</style>

@@ -1,0 +1,185 @@
+---
+import { services } from '../data/portfolio';
+import LetterGlitch from './LetterGlitch.astro';
+---
+
+<section class="services section" id="services" aria-labelledby="services-title">
+	<div class="container services-layout">
+		<div class="services-list">
+			<p class="section-kicker" data-i18n data-es="Capacidades" data-en="Capabilities">Capacidades</p>
+			<h2 id="services-title" data-i18n data-es="¿Qué hago?" data-en="What I do?">¿Qué hago?</h2>
+			<div class="accordion" data-accordion>
+				{services.map((service, index) => (
+					<div class:list={['service-item', { 'is-open': index === 0 }]}>
+						<button class="service-trigger" type="button" aria-expanded={index === 0 ? 'true' : 'false'}>
+							<span data-i18n data-es={service.title} data-en={service.titleEn}>{service.title}</span>
+							<span class="service-chevron" aria-hidden="true">⌄</span>
+						</button>
+						<div class="service-panel" hidden={index !== 0}>
+							<ul>
+								{service.items.map((item, itemIndex) => <li data-i18n data-es={item} data-en={service.itemsEn[itemIndex]}>{item}</li>)}
+							</ul>
+						</div>
+					</div>
+				))}
+			</div>
+		</div>
+
+		<div class="service-visual">
+			<LetterGlitch />
+		</div>
+	</div>
+</section>
+
+<script>
+	const accordion = document.querySelector<HTMLElement>('[data-accordion]');
+
+	accordion?.querySelectorAll<HTMLButtonElement>('.service-trigger').forEach((trigger) => {
+		trigger.addEventListener('click', () => {
+			const item = trigger.closest<HTMLElement>('.service-item');
+			const panel = item?.querySelector<HTMLElement>('.service-panel');
+			if (!item || !panel) return;
+
+			const shouldOpen = !item.classList.contains('is-open');
+			accordion.querySelectorAll<HTMLElement>('.service-item').forEach((otherItem) => {
+				otherItem.classList.remove('is-open');
+				otherItem.querySelector<HTMLButtonElement>('.service-trigger')?.setAttribute('aria-expanded', 'false');
+				const otherPanel = otherItem.querySelector<HTMLElement>('.service-panel');
+				if (otherPanel) otherPanel.hidden = true;
+			});
+
+			if (shouldOpen) {
+				item.classList.add('is-open');
+				trigger.setAttribute('aria-expanded', 'true');
+				panel.hidden = false;
+			}
+		});
+	});
+</script>
+
+<style>
+	.services {
+		padding-top: clamp(2rem, 4vw, 3rem);
+		background: transparent;
+	}
+
+	.services-layout {
+		display: flex;
+		flex-direction: column;
+		gap: 2rem;
+		align-items: center;
+	}
+
+	.services-list {
+		width: 100%;
+	}
+
+	.section-kicker {
+		margin: 0 0 0.75rem;
+		color: var(--color-accent-secondary);
+		font-size: 0.72rem;
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
+	}
+
+	h2 {
+		margin: 0 0 2.5rem;
+		font-size: clamp(2rem, 5vw, 3rem);
+		font-weight: 500;
+		letter-spacing: -0.06em;
+		line-height: 1;
+	}
+
+	.accordion {
+		display: grid;
+		gap: 1rem;
+	}
+
+	.service-item {
+		overflow: hidden;
+		border: 1px solid var(--color-border);
+		border-radius: 1rem;
+		background: rgba(20, 20, 20, 0.61);
+		transition: border-color var(--transition-standard), background-color var(--transition-standard);
+	}
+
+	.service-item.is-open {
+		border-color: var(--color-border-strong);
+		background: var(--color-surface);
+	}
+
+	.service-trigger {
+		display: grid;
+		grid-template-columns: minmax(0, 1fr) auto;
+		gap: 0.75rem;
+		align-items: center;
+		width: 100%;
+		min-height: 68px;
+		padding: 1rem 1.15rem;
+		background: transparent;
+		color: var(--color-text-secondary);
+		font-size: 0.92rem;
+		text-align: left;
+		cursor: pointer;
+	}
+
+	.service-trigger:hover {
+		color: var(--color-text);
+	}
+
+	.service-chevron {
+		color: var(--color-text-muted);
+		font-size: 1.2rem;
+		transition: transform var(--transition-fast);
+	}
+
+	.service-item.is-open .service-chevron {
+		transform: rotate(180deg);
+	}
+
+	.service-panel {
+		padding: 0 1.15rem 1.2rem 4rem;
+	}
+
+	.service-panel ul {
+		display: grid;
+		gap: 0.6rem;
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	.service-panel li {
+		color: var(--color-text-muted);
+		font-size: 0.78rem;
+		line-height: 1.6;
+	}
+
+	.service-panel li::before {
+		margin-right: 0.5rem;
+		color: var(--color-accent-secondary);
+		content: '•';
+	}
+
+	.service-visual {
+		display: flex;
+		width: 290px;
+		height: 292px;
+		align-items: center;
+		justify-content: center;
+		padding-top: 0.75rem;
+	}
+
+	@media (min-width: 960px) {
+		.services-layout {
+			display: grid;
+			grid-template-columns: minmax(0, 1fr) 290px;
+			align-items: center;
+			gap: 2rem;
+		}
+
+		.service-visual {
+			margin-left: 1rem;
+		}
+	}
+</style>

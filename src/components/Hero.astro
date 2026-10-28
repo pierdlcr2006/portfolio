@@ -1,0 +1,150 @@
+---
+import { education, profile } from '../data/portfolio';
+---
+
+<section class="hero container" id="home" aria-labelledby="hero-title">
+	<div class="hero-intro">
+		<p data-i18n data-es={`Hola, soy ${profile.name}`} data-en={`Hi, I'm ${profile.name}`}>Hola, soy {profile.name}</p>
+	</div>
+
+	<div class="hero-main">
+		<h1 id="hero-title"><span data-i18n data-es="Desarrollador" data-en="Software">Desarrollador</span><br /><span data-i18n data-es="de Software" data-en="Developer">de Software</span></h1>
+		<div class="hero-description">
+			<p data-i18n data-es={profile.summary} data-en={profile.summaryEn}>{profile.summary}</p>
+			<div class="social-links" aria-label="Enlaces profesionales">
+				<a class="social-link" href={profile.linkedin} target="_blank" rel="noreferrer" aria-label="LinkedIn de Piero de la Cruz Palpa" data-label-es="LinkedIn de Piero de la Cruz Palpa" data-label-en="Piero de la Cruz Palpa on LinkedIn">
+					<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5.2 3.5a2.2 2.2 0 1 1-4.4 0 2.2 2.2 0 0 1 4.4 0ZM1.1 8h4.2v12.5H1.1V8Zm6.8 0h4v1.7h.1c.6-1.1 2-2.2 4-2.2 4.3 0 5.1 2.8 5.1 6.5v6.5h-4.2v-5.8c0-1.4 0-3.3-2-3.3s-2.3 1.5-2.3 3.2v5.9H7.9V8Z" /></svg>
+				</a>
+				<a class="social-link" href={`mailto:${profile.email}`} aria-label={`Enviar correo a ${profile.email}`} data-label-es={`Enviar correo a ${profile.email}`} data-label-en={`Send an email to ${profile.email}`}>
+					<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2.5 5.5h19v13h-19v-13Zm1.4 1.4 8.1 6 8.1-6M3.4 17.1l5.3-5m11.9 5-5.3-5" /></svg>
+				</a>
+			</div>
+		</div>
+	</div>
+
+	<div class="profile-meta">
+		<span data-i18n data-es={education.institution} data-en={education.institutionEn}>{education.institution}</span>
+		<span data-i18n data-es={education.program} data-en={education.programEn}>{education.program}</span>
+		<span data-i18n data-es={education.language} data-en={education.languageEn}>{education.language}</span>
+	</div>
+</section>
+
+<style>
+	.hero {
+		min-height: 100vh;
+		padding-top: clamp(8rem, 16vh, 11rem);
+		padding-bottom: clamp(5rem, 11vw, 8rem);
+	}
+
+	.hero-intro {
+		margin-bottom: 1.25rem;
+		color: var(--color-text-muted);
+		font-size: clamp(0.95rem, 1.7vw, 1.15rem);
+	}
+
+	.hero-intro p {
+		margin: 0;
+	}
+
+	.hero-main {
+		display: grid;
+		grid-template-columns: minmax(300px, 0.75fr) minmax(280px, 1.25fr);
+		gap: clamp(2rem, 7vw, 8rem);
+		align-items: center;
+	}
+
+	h1 {
+		margin: 0;
+		color: var(--color-text);
+		font-size: clamp(3.6rem, 8vw, 7.4rem);
+		font-weight: 500;
+		letter-spacing: -0.11em;
+		line-height: 0.94;
+	}
+
+	.hero-description {
+		max-width: 56ch;
+	}
+
+	.hero-description p {
+		margin: 0;
+		color: var(--color-text-secondary);
+		font-size: clamp(0.95rem, 1.7vw, 1.15rem);
+		line-height: 1.75;
+	}
+
+	.social-links {
+		display: flex;
+		gap: 0.8rem;
+		margin-top: 2rem;
+	}
+
+	.social-link {
+		display: grid;
+		place-items: center;
+		width: 54px;
+		height: 54px;
+		border: 1px solid var(--color-border);
+		border-radius: var(--radius-md);
+		color: var(--color-text-secondary);
+		transition: border-color var(--transition-fast), color var(--transition-fast), transform var(--transition-fast);
+	}
+
+	.social-link:hover {
+		transform: translateY(-2px);
+		border-color: var(--color-accent);
+		color: var(--color-accent);
+	}
+
+	.social-link svg {
+		width: 22px;
+		height: 22px;
+		fill: currentColor;
+	}
+
+	.social-link:nth-child(2) svg {
+		fill: none;
+		stroke: currentColor;
+		stroke-linecap: round;
+		stroke-linejoin: round;
+		stroke-width: 1.6;
+	}
+
+	.profile-meta {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.5rem 2rem;
+		margin-top: 1.5rem;
+		color: var(--color-text-muted);
+		font-size: 0.68rem;
+	}
+
+	.profile-meta span + span::before {
+		margin-right: 2rem;
+		color: var(--color-accent);
+		content: '/';
+	}
+
+	@media (max-width: 760px) {
+		.hero {
+			padding-top: 8rem;
+		}
+
+		.hero-main {
+			grid-template-columns: 1fr;
+			gap: 2.25rem;
+		}
+
+		h1 {
+			font-size: clamp(3.1rem, 16vw, 5.8rem);
+		}
+
+		.profile-meta {
+			line-height: 1.8;
+		}
+
+		.profile-meta span + span::before {
+			margin-right: 0.7rem;
+		}
+	}
+</style>

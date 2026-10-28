@@ -1,0 +1,312 @@
+<a class="skip-link" href="#contenido">Saltar al contenido</a>
+
+<div class="nav-shell">
+	<nav id="main-nav" aria-label="Navegación principal">
+		<ul>
+			<li>
+				<a href="#home" aria-label="Inicio" data-label-es="Inicio" data-label-en="Home">
+					<span class="nav-indicator" aria-hidden="true"></span>
+					<span class="nav-icon" aria-hidden="true">
+						<svg viewBox="0 0 24 24"><path d="M21 20c0 .55-.45 1-1 1H4c-.55 0-1-.45-1-1V9.49c0-.31.14-.6.39-.79l8-6.22a1 1 0 0 1 1.23 0l8 6.22c.24.19.39.48.39.79V20ZM19 19V9.98L12 4.53 5 9.98V19h14Z" /></svg>
+					</span>
+					<span class="nav-label" data-i18n data-es="Inicio" data-en="Home">Inicio</span>
+				</a>
+			</li>
+			<li>
+				<a href="#projects" aria-label="Proyectos" data-label-es="Proyectos" data-label-en="Projects">
+					<span class="nav-indicator" aria-hidden="true"></span>
+					<span class="nav-icon" aria-hidden="true">
+						<svg viewBox="0 0 24 24"><path d="M4 5v14h16V7h-8.41l-2-2H4Zm8.41 0H21c.55 0 1 .45 1 1v14c0 .55-.45 1-1 1H3c-.55 0-1-.45-1-1V4c0-.55.45-1 1-1h7.41l2 2Z" /></svg>
+					</span>
+					<span class="nav-label" data-i18n data-es="Proyectos" data-en="Projects">Proyectos</span>
+				</a>
+			</li>
+			<li>
+				<a href="#contact" aria-label="Contacto" data-label-es="Contacto" data-label-en="Contact">
+					<span class="nav-indicator" aria-hidden="true"></span>
+					<span class="nav-icon" aria-hidden="true">
+						<svg viewBox="0 0 24 24"><path d="M21.73 2.96 16.27 22.04c-.15.53-.48.55-.72.07L11 13 1.92 9.37c-.51-.2-.5-.51.03-.69l19.09-6.36c.53-.18.83.12.69.64ZM19.04 5.1 6.81 9.17l5.64 2.25 3.04 6.08L19.04 5.1Z" /></svg>
+					</span>
+					<span class="nav-label" data-i18n data-es="Contacto" data-en="Contact">Contacto</span>
+				</a>
+			</li>
+			<li class="language-item">
+				<button id="language-toggle" class="language-toggle" type="button" aria-label="Cambiar idioma" aria-pressed="false">EN / ES</button>
+			</li>
+		</ul>
+	</nav>
+</div>
+
+<script>
+	const nav = document.getElementById('main-nav');
+	const maxScroll = 1000;
+	let rafId: number | null = null;
+
+	function updateNav() {
+		if (!nav) return;
+
+		if (window.scrollY > 0) {
+			nav.classList.add('scrolling');
+			const scrollProgress = Math.min(window.scrollY / maxScroll, 1);
+			const easeProgress = 1 - Math.pow(1 - scrollProgress, 4);
+			const minWidth = 528;
+			const maxWidth = window.innerWidth * 0.8;
+			const currentWidth = maxWidth - (maxWidth - minWidth) * easeProgress;
+
+			if (window.innerWidth >= 768) nav.style.setProperty('width', `${currentWidth}px`);
+		} else {
+			nav.classList.remove('scrolling');
+			nav.style.removeProperty('width');
+		}
+		rafId = null;
+	}
+
+	window.addEventListener(
+		'scroll',
+		() => {
+			if (!rafId) rafId = requestAnimationFrame(updateNav);
+		},
+		{ passive: true },
+	);
+
+	document.querySelectorAll<HTMLAnchorElement>('a[href^="#"]').forEach((anchor) => {
+		anchor.addEventListener('click', (event) => {
+			event.preventDefault();
+			const targetId = anchor.getAttribute('href')?.substring(1) ?? '';
+			document.getElementById(targetId)?.scrollIntoView({ behavior: 'smooth' });
+		});
+	});
+
+	const sections = document.querySelectorAll<HTMLElement>('section[id]');
+	const navLinks = document.querySelectorAll<HTMLAnchorElement>('#main-nav a[href^="#"]');
+	const observer = new IntersectionObserver(
+		(entries) => {
+			entries.forEach((entry) => {
+				if (!entry.isIntersecting) return;
+				navLinks.forEach((link) => link.classList.remove('active'));
+				document.querySelector<HTMLAnchorElement>(`#main-nav a[href="#${entry.target.id}"]`)?.classList.add('active');
+			});
+		},
+		{ threshold: 0.6 },
+	);
+	sections.forEach((section) => observer.observe(section));
+
+	type Language = 'es' | 'en';
+	let currentLanguage: Language = 'es';
+	const languageToggle = document.getElementById('language-toggle');
+
+	const applyLanguage = (language: Language) => {
+		currentLanguage = language;
+		document.documentElement.lang = language;
+
+		document.querySelectorAll<HTMLElement>('[data-i18n]').forEach((element) => {
+			const value = element.dataset[language];
+			if (value !== undefined) element.textContent = value;
+		});
+
+		document.querySelectorAll<HTMLInputElement | HTMLTextAreaElement>('[data-placeholder-es]').forEach((element) => {
+			const placeholder = element.dataset[`placeholder${language === 'es' ? 'Es' : 'En'}`];
+			if (placeholder !== undefined) element.placeholder = placeholder;
+		});
+
+		document.querySelectorAll<HTMLElement>('[data-label-es]').forEach((element) => {
+			const label = element.dataset[`label${language === 'es' ? 'Es' : 'En'}`];
+			if (label !== undefined) element.setAttribute('aria-label', label);
+		});
+
+		languageToggle?.setAttribute('aria-pressed', String(language === 'en'));
+		if (languageToggle) languageToggle.textContent = language === 'es' ? 'EN / ES' : 'ES / EN';
+		document.title = language === 'es' ? 'Piero de la Cruz Palpa — Desarrollador Backend' : 'Piero de la Cruz Palpa — Backend Developer';
+
+		try {
+			localStorage.setItem('portfolio-language', language);
+		} catch {
+			// Storage can be unavailable in privacy-restricted contexts.
+		}
+	};
+
+	languageToggle?.addEventListener('click', () => applyLanguage(currentLanguage === 'es' ? 'en' : 'es'));
+	try {
+		const storedLanguage = localStorage.getItem('portfolio-language');
+		if (storedLanguage === 'en') currentLanguage = 'en';
+	} catch {
+		// Use Spanish when storage is unavailable.
+	}
+	applyLanguage(currentLanguage);
+	updateNav();
+</script>
+
+<style>
+	.skip-link {
+		position: fixed;
+		top: 0.75rem;
+		left: 0.75rem;
+		z-index: 200;
+		transform: translateY(-160%);
+		padding: 0.65rem 0.8rem;
+		border-radius: var(--radius-sm);
+		background: var(--color-accent);
+		color: var(--color-bg);
+		font-size: 0.75rem;
+		text-decoration: none;
+		transition: transform var(--transition-fast);
+	}
+
+	.skip-link:focus {
+		transform: translateY(0);
+	}
+
+	.nav-shell {
+		display: flex;
+		justify-content: center;
+		width: 100%;
+	}
+
+	nav {
+		position: fixed;
+		top: 1.5rem;
+		left: 50%;
+		z-index: 100;
+		width: 80%;
+		transform: translateX(-50%);
+		border: 1px solid transparent;
+		background: transparent;
+		backdrop-filter: blur(18px);
+		transition: background-color 0.3s ease, border-radius 0.3s ease, border-color 0.3s ease, width 0.5s ease;
+	}
+
+	nav.scrolling {
+		border-color: rgba(255, 255, 255, 0.06);
+		border-radius: 9999px;
+		background: rgba(16, 16, 16, 0.86);
+	}
+
+	ul {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 3rem;
+		width: 100%;
+		max-width: 1024px;
+		margin: 0 auto;
+		padding: 0.75rem 1rem;
+		list-style: none;
+	}
+
+	li {
+		flex: 0 1 auto;
+	}
+
+	.language-item {
+		margin-left: 0.5rem;
+	}
+
+	a {
+		position: relative;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 0.35rem;
+		color: var(--color-text-muted);
+		font-size: 0.9rem;
+		text-decoration: none;
+		transition: color var(--transition-fast);
+	}
+
+	a:hover,
+	a.active {
+		color: var(--color-text);
+	}
+
+	.nav-indicator {
+		position: absolute;
+		left: -1.5rem;
+		top: 50%;
+		width: 0.5rem;
+		height: 0.5rem;
+		transform: translateY(-50%) scale(0);
+		border-radius: 50%;
+		background: var(--color-accent);
+		opacity: 0;
+		transition: transform var(--transition-fast), opacity var(--transition-fast);
+	}
+
+	a.active .nav-indicator {
+		transform: translateY(-50%) scale(1);
+		opacity: 1;
+	}
+
+	.language-toggle {
+		padding: 0.35rem 0.5rem;
+		border: 1px solid rgba(255, 255, 255, 0.12);
+		border-radius: 999px;
+		background: transparent;
+		color: var(--color-text-muted);
+		font: inherit;
+		font-size: 0.68rem;
+		cursor: pointer;
+		transition: color var(--transition-fast), border-color var(--transition-fast), background-color var(--transition-fast);
+	}
+
+	.language-toggle:hover,
+	.language-toggle[aria-pressed='true'] {
+		border-color: var(--color-accent-secondary);
+		background: rgba(168, 126, 255, 0.1);
+		color: var(--color-text);
+	}
+
+	.nav-icon {
+		display: none;
+		width: 1.5rem;
+		height: 1.5rem;
+	}
+
+	.nav-icon svg {
+		width: 100%;
+		height: 100%;
+		fill: currentColor;
+	}
+
+	@media (max-width: 767px) {
+		:global(body) {
+			padding-bottom: 70px;
+		}
+
+		nav,
+		nav.scrolling {
+			top: auto;
+			bottom: 0;
+			width: 100%;
+			border-color: rgba(255, 255, 255, 0.06);
+			border-radius: 1rem 1rem 0 0;
+			background: rgba(16, 16, 16, 0.94);
+		}
+
+		ul {
+			justify-content: space-between;
+			gap: 1.5rem;
+			padding: 0.7rem 1.25rem;
+		}
+
+		li {
+			flex: 1;
+		}
+
+		.language-item {
+			margin-left: 0;
+		}
+
+		a {
+			flex-direction: column;
+			font-size: 0.68rem;
+		}
+
+		.nav-icon {
+			display: flex;
+		}
+
+		.nav-indicator {
+			display: none;
+		}
+	}
+</style>
