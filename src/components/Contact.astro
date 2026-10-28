@@ -76,13 +76,21 @@ import { profile } from '../data/portfolio';
 	}
 
 	.contact-links a {
-		color: var(--color-text-muted);
+		padding: 0.55rem 0.75rem;
+		border: 1px solid rgba(169, 255, 91, 0.28);
+		border-radius: 999px;
+		background: rgba(169, 255, 91, 0.04);
+		color: var(--color-accent);
+		font-weight: 600;
 		text-decoration: none;
-		transition: color var(--transition-fast);
+		transition: transform var(--transition-fast), border-color var(--transition-fast), background-color var(--transition-fast), box-shadow var(--transition-fast);
 	}
 
 	.contact-links a:hover {
-		color: var(--color-accent);
+		transform: translateY(-1px);
+		border-color: var(--color-accent);
+		background: rgba(169, 255, 91, 0.1);
+		box-shadow: 0 0 14px rgba(169, 255, 91, 0.12);
 	}
 
 	@media (max-width: 760px) {
