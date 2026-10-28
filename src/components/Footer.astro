@@ -12,11 +12,6 @@ import { profile } from '../data/portfolio';
 			</div>
 		</div>
 
-		<div>
-			<p class="footer-label" data-i18n data-es="Construido con" data-en="Built with">Construido con</p>
-			<p class="footer-value">Astro / TypeScript / CSS</p>
-		</div>
-
 		<div class="footer-signature">
 			<p>{profile.name}</p>
 			<p>© {new Date().getFullYear()}</p>
@@ -32,7 +27,7 @@ import { profile } from '../data/portfolio';
 
 	.footer-grid {
 		display: grid;
-		grid-template-columns: repeat(3, minmax(0, 1fr));
+		grid-template-columns: 1fr auto;
 		gap: 2rem;
 	}
 
@@ -51,7 +46,6 @@ import { profile } from '../data/portfolio';
 	}
 
 	.footer-links a,
-	.footer-value,
 	.footer-signature p {
 		margin: 0;
 		color: var(--color-text-muted);

@@ -13,11 +13,11 @@ const timelineWork = [...selectedWork].sort((a, b) => b.startDate.localeCompare(
 		<div class="projects-timeline">
 			{timelineWork.map((work, index) => (
 				<article class="project-card">
+					<div class="project-date">
+						<span class="timeline-date" data-i18n data-es={work.period} data-en={work.periodEn}>{work.period}</span>
+					</div>
 					<div class="timeline-marker" aria-hidden="true"></div>
 					<div class="project-content">
-						<div class="project-date">
-							<span class="timeline-date" data-i18n data-es={work.period} data-en={work.periodEn}>{work.period}</span>
-						</div>
 						<div class:list={['project-preview', `project-preview-${index + 1}`]} aria-hidden="true">
 							<div class="preview-topline">
 								<span>{work.company}</span>
@@ -98,18 +98,24 @@ const timelineWork = [...selectedWork].sort((a, b) => b.startDate.localeCompare(
 	.project-card {
 		display: grid;
 		grid-template-columns: minmax(0, 1fr) 2rem minmax(0, 1fr);
-		grid-template-areas: 'content marker .';
+		grid-template-areas: 'content marker date';
 		column-gap: 1.5rem;
 		align-items: start;
 		min-width: 0;
 	}
 
 	.project-card:nth-child(even) {
-		grid-template-areas: '. marker content';
+		grid-template-areas: 'date marker content';
 	}
 
 	.project-date {
-		margin-bottom: 1.25rem;
+		grid-area: date;
+		align-self: start;
+		padding-top: 0.25rem;
+	}
+
+	.project-card:nth-child(even) .project-date {
+		text-align: right;
 	}
 
 	.timeline-date {
@@ -284,17 +290,18 @@ const timelineWork = [...selectedWork].sort((a, b) => b.startDate.localeCompare(
 
 		.project-card {
 			grid-template-columns: 1.5rem minmax(0, 1fr);
-			grid-template-areas: 'marker content';
+			grid-template-areas: 'marker date' 'marker content';
 			row-gap: 0.6rem;
 			column-gap: 1rem;
 		}
 
 		.project-card:nth-child(even) {
-			grid-template-areas: 'marker content';
+			grid-template-areas: 'marker date' 'marker content';
 		}
 
 		.project-date {
-			margin-bottom: 1rem;
+			padding-top: 0;
+			text-align: left;
 		}
 
 		.project-preview {
