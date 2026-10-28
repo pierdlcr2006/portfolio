@@ -1,0 +1,226 @@
+<div class="code-editor" data-code-editor aria-hidden="true">
+	<div class="code-editor-toolbar">
+		<div class="code-editor-dots">
+			<span></span>
+			<span></span>
+			<span></span>
+		</div>
+		<span class="code-editor-file">InnovationService.java</span>
+		<span class="code-editor-status">● JAVA</span>
+	</div>
+	<canvas></canvas>
+	<div class="code-editor-vignette"></div>
+</div>
+
+<script>
+	const editorRoot = document.querySelector<HTMLElement>('[data-code-editor]');
+	const editorCanvas = editorRoot?.querySelector<HTMLCanvasElement>('canvas');
+
+	if (editorRoot && editorCanvas) {
+		const editorContext = editorCanvas.getContext('2d');
+		const codeLines = [
+			'public class InnovationService {',
+			'  private final AiClient aiClient;',
+			'',
+			'  public Mono<String> evaluate(String proposal) {',
+			'    return aiClient.analyze(proposal)',
+			'      .map(AiResult::summary);',
+			'  }',
+			'}',
+		];
+		const fullCode = codeLines.join('\n');
+		const keywordPattern = /(".*?"|@[A-Za-z]+|\b(?:public|private|class|final|return|new|void|interface|extends)\b|\b(?:String|Mono|AiClient|AiResult|InnovationService)\b|\b(?:true|false|null)\b)/g;
+		const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+		const typeInterval = 28;
+		const restartDelay = 2600;
+		let pixelRatio = 1;
+		let canvasWidth = 0;
+		let canvasHeight = 0;
+		let animationFrame = 0;
+		let typedCharacters = reducedMotion ? fullCode.length : 0;
+		let lastTypedAt = 0;
+		let completedAt = 0;
+
+		const tokenColor = (token: string) => {
+			if (token.startsWith('"')) return '#a9ff5b';
+			if (token.startsWith('@')) return '#ffcb6b';
+			if (/^(String|Mono|AiClient|AiResult|InnovationService)$/.test(token)) return '#82aaff';
+			if (/^(true|false|null)$/.test(token)) return '#f78c6c';
+			return '#c792ea';
+		};
+
+		const resize = () => {
+			const bounds = editorCanvas.getBoundingClientRect();
+			pixelRatio = Math.min(window.devicePixelRatio || 1, 2);
+			canvasWidth = bounds.width;
+			canvasHeight = bounds.height;
+			editorCanvas.width = Math.floor(canvasWidth * pixelRatio);
+			editorCanvas.height = Math.floor(canvasHeight * pixelRatio);
+			editorCanvas.style.width = `${canvasWidth}px`;
+			editorCanvas.style.height = `${canvasHeight}px`;
+			editorContext?.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
+		};
+
+		const drawTokens = (line: string, x: number, y: number) => {
+			if (!editorContext) return;
+			let cursor = 0;
+
+			line.replace(keywordPattern, (token, _match, offset: number) => {
+				const beforeToken = line.slice(cursor, offset);
+				editorContext.fillStyle = '#d1d1ca';
+				editorContext.fillText(beforeToken, x, y);
+				x += editorContext.measureText(beforeToken).width;
+				editorContext.fillStyle = tokenColor(token);
+				editorContext.fillText(token, x, y);
+				x += editorContext.measureText(token).width;
+				cursor = offset + token.length;
+				return token;
+			});
+
+			const remaining = line.slice(cursor);
+			editorContext.fillStyle = '#d1d1ca';
+			editorContext.fillText(remaining, x, y);
+		};
+
+		const draw = (timestamp = 0) => {
+			if (!editorContext || !canvasWidth || !canvasHeight) return;
+
+			if (!reducedMotion) {
+				if (typedCharacters < fullCode.length && timestamp - lastTypedAt > typeInterval) {
+					typedCharacters += 1;
+					lastTypedAt = timestamp;
+				} else if (typedCharacters === fullCode.length && !completedAt) {
+					completedAt = timestamp;
+				} else if (completedAt && timestamp - completedAt > restartDelay) {
+					typedCharacters = 0;
+					completedAt = 0;
+				}
+			}
+
+			editorContext.clearRect(0, 0, canvasWidth, canvasHeight);
+			editorContext.fillStyle = '#111111';
+			editorContext.fillRect(0, 0, canvasWidth, canvasHeight);
+			editorContext.font = '10px SFMono-Regular, Consolas, monospace';
+			editorContext.textBaseline = 'top';
+
+			const lineHeight = 17;
+			const lineNumberX = 13;
+			const codeX = 42;
+			const codeTop = 16;
+			let characterOffset = 0;
+
+			codeLines.forEach((line, lineIndex) => {
+				const lineStart = characterOffset;
+				const visibleLength = Math.max(0, Math.min(line.length, typedCharacters - lineStart));
+				const visibleLine = line.slice(0, visibleLength);
+				editorContext.fillStyle = '#5f625f';
+				editorContext.fillText(String(lineIndex + 1).padStart(2, '0'), lineNumberX, codeTop + lineIndex * lineHeight);
+
+				if (visibleLength > 0) {
+					drawTokens(visibleLine, codeX, codeTop + lineIndex * lineHeight);
+				}
+
+				characterOffset += line.length + 1;
+			});
+
+			const currentCode = fullCode.slice(0, typedCharacters);
+			const currentLine = currentCode.split('\n').at(-1) ?? '';
+			const currentLineIndex = currentCode.split('\n').length - 1;
+			if (reducedMotion || Math.floor(timestamp / 500) % 2 === 0) {
+				editorContext.fillStyle = '#a9ff5b';
+				editorContext.fillRect(codeX + editorContext.measureText(currentLine).width + 1, codeTop + currentLineIndex * lineHeight + 1, 1, 12);
+			}
+
+			if (!reducedMotion) animationFrame = requestAnimationFrame(draw);
+		};
+
+		const observer = new ResizeObserver(resize);
+		observer.observe(editorCanvas);
+		resize();
+		draw();
+
+		window.addEventListener('pagehide', () => {
+			cancelAnimationFrame(animationFrame);
+			observer.disconnect();
+		});
+	}
+</script>
+
+<style>
+	.code-editor {
+		position: relative;
+		width: 290px;
+		height: 292px;
+		overflow: hidden;
+		border: 1px solid rgba(255, 255, 255, 0.1);
+		border-radius: var(--radius-md);
+		background: #111111;
+		box-shadow: 0 20px 45px rgba(0, 0, 0, 0.28);
+		isolation: isolate;
+	}
+
+	.code-editor-toolbar {
+		position: relative;
+		z-index: 2;
+		display: flex;
+		height: 31px;
+		align-items: center;
+		gap: 0.6rem;
+		padding: 0 0.7rem;
+		border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+		background: #191919;
+		color: var(--color-text-muted);
+		font-size: 0.56rem;
+	}
+
+	.code-editor-dots {
+		display: flex;
+		gap: 0.25rem;
+	}
+
+	.code-editor-dots span {
+		width: 0.42rem;
+		height: 0.42rem;
+		border-radius: 50%;
+		background: #5a5a58;
+	}
+
+	.code-editor-dots span:first-child {
+		background: #a476ff;
+	}
+
+	.code-editor-file {
+		flex: 1;
+		color: var(--color-text-secondary);
+		text-align: center;
+	}
+
+	.code-editor-status {
+		color: var(--color-accent);
+		font-size: 0.5rem;
+	}
+
+	.code-editor canvas,
+	.code-editor-vignette {
+		position: absolute;
+		top: 31px;
+		left: 0;
+		width: 100%;
+		height: calc(100% - 31px);
+	}
+
+	.code-editor canvas {
+		display: block;
+	}
+
+	.code-editor-vignette {
+		pointer-events: none;
+		background: linear-gradient(90deg, rgba(0, 0, 0, 0.16), transparent 26%, transparent 78%, rgba(0, 0, 0, 0.25)), linear-gradient(0deg, rgba(0, 0, 0, 0.22), transparent 35%);
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.code-editor canvas {
+			opacity: 0.86;
+		}
+	}
+</style>
