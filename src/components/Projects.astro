@@ -13,11 +13,11 @@ const timelineWork = [...selectedWork].sort((a, b) => b.startDate.localeCompare(
 		<div class="projects-timeline">
 			{timelineWork.map((work, index) => (
 				<article class="project-card">
-					<div class="project-date">
-						<span class="timeline-date" data-i18n data-es={work.period} data-en={work.periodEn}>{work.period}</span>
-					</div>
 					<div class="timeline-marker" aria-hidden="true"></div>
 					<div class="project-content">
+						<div class="project-date">
+							<span class="timeline-date" data-i18n data-es={work.period} data-en={work.periodEn}>{work.period}</span>
+						</div>
 						<div class:list={['project-preview', `project-preview-${index + 1}`]} aria-hidden="true">
 							<div class="preview-topline">
 								<span>{work.company}</span>
@@ -88,22 +88,28 @@ const timelineWork = [...selectedWork].sort((a, b) => b.startDate.localeCompare(
 		position: absolute;
 		top: 1.25rem;
 		bottom: 1.25rem;
-		left: 10.25rem;
+		left: 50%;
 		width: 1px;
+		transform: translateX(-50%);
 		background: rgba(169, 255, 91, 0.24);
 		content: '';
 	}
 
 	.project-card {
 		display: grid;
-		grid-template-columns: 8rem 2rem minmax(0, 1fr);
-		column-gap: 1.25rem;
+		grid-template-columns: minmax(0, 1fr) 2rem minmax(0, 1fr);
+		grid-template-areas: 'content marker .';
+		column-gap: 1.5rem;
+		align-items: start;
 		min-width: 0;
 	}
 
+	.project-card:nth-child(even) {
+		grid-template-areas: '. marker content';
+	}
+
 	.project-date {
-		padding-top: 0.25rem;
-		text-align: right;
+		margin-bottom: 1.25rem;
 	}
 
 	.timeline-date {
@@ -113,6 +119,7 @@ const timelineWork = [...selectedWork].sort((a, b) => b.startDate.localeCompare(
 	}
 
 	.timeline-marker {
+		grid-area: marker;
 		position: relative;
 		z-index: 1;
 		display: grid;
@@ -131,6 +138,7 @@ const timelineWork = [...selectedWork].sort((a, b) => b.startDate.localeCompare(
 	}
 
 	.project-content {
+		grid-area: content;
 		min-width: 0;
 		padding: 1.25rem;
 		border: 1px solid rgba(255, 255, 255, 0.08);
@@ -271,29 +279,22 @@ const timelineWork = [...selectedWork].sort((a, b) => b.startDate.localeCompare(
 
 		.projects-timeline::before {
 			left: 0.7rem;
+			transform: none;
 		}
 
 		.project-card {
 			grid-template-columns: 1.5rem minmax(0, 1fr);
+			grid-template-areas: 'marker content';
 			row-gap: 0.6rem;
 			column-gap: 1rem;
 		}
 
+		.project-card:nth-child(even) {
+			grid-template-areas: 'marker content';
+		}
+
 		.project-date {
-			grid-column: 2;
-			grid-row: 1;
-			padding-top: 0;
-			text-align: left;
-		}
-
-		.timeline-marker {
-			grid-column: 1;
-			grid-row: 1 / span 2;
-		}
-
-		.project-content {
-			grid-column: 2;
-			grid-row: 2;
+			margin-bottom: 1rem;
 		}
 
 		.project-preview {
