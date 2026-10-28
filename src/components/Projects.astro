@@ -11,23 +11,14 @@ const timelineWork = [...selectedWork].sort((a, b) => b.startDate.localeCompare(
 		<h3 id="projects-title" data-i18n data-es="Trayectoria profesional" data-en="Professional experience">Trayectoria profesional</h3>
 
 		<div class="projects-timeline">
-			{timelineWork.map((work, index) => (
+			{timelineWork.map((work) => (
 				<article class="project-card">
 					<div class="project-date">
 						<span class="timeline-date" data-i18n data-es={work.period} data-en={work.periodEn}>{work.period}</span>
 					</div>
 					<div class="timeline-marker" aria-hidden="true"></div>
 					<div class="project-content">
-						<div class:list={['project-preview', `project-preview-${index + 1}`]} aria-hidden="true">
-							<div class="preview-topline">
-								<span>{work.company}</span>
-							</div>
-							<div class="preview-grid"></div>
-							<div class="preview-terminal">
-								<span>{work.tags.slice(0, 2).join(' / ')}</span>
-								<span aria-hidden="true">{`{ }`}</span>
-							</div>
-						</div>
+						<p class="project-company">{work.company}</p>
 						<div class="project-details">
 							<h4 data-i18n data-es={work.title} data-en={work.titleEn}>{work.title}</h4>
 							<span data-i18n data-es={work.role} data-en={work.roleEn}>{work.role}</span>
@@ -146,81 +137,19 @@ const timelineWork = [...selectedWork].sort((a, b) => b.startDate.localeCompare(
 	.project-content {
 		grid-area: content;
 		min-width: 0;
-		padding: 1.25rem;
-		border: 1px solid rgba(255, 255, 255, 0.08);
-		border-radius: 1rem;
-		background: rgba(23, 23, 23, 0.72);
+		padding-block: 0.25rem;
 	}
 
-	.project-preview {
-		position: relative;
-		height: 18rem;
-		margin-bottom: 1.25rem;
-		overflow: hidden;
-		border: 1px solid rgba(255, 255, 255, 0.08);
-		border-radius: 1rem;
-		background: #161616;
-		box-shadow: 0 16px 35px rgba(0, 0, 0, 0.22);
-		transition: box-shadow var(--transition-standard), transform var(--transition-standard);
-	}
-
-	.project-card:hover .project-preview {
-		box-shadow: 0 22px 44px rgba(0, 0, 0, 0.38);
-		transform: translateY(-3px);
-	}
-
-	.project-preview-1 {
-		background: radial-gradient(circle at 75% 25%, rgba(164, 118, 255, 0.28), transparent 34%), #16131d;
-	}
-
-	.project-preview-2 {
-		background: radial-gradient(circle at 30% 70%, rgba(169, 255, 91, 0.14), transparent 33%), #141816;
-	}
-
-	.project-preview-3 {
-		background: radial-gradient(circle at 75% 70%, rgba(164, 118, 255, 0.2), transparent 33%), #161616;
-	}
-
-	.preview-topline {
-		position: absolute;
-		top: 1rem;
-		right: 1rem;
-		left: 1rem;
-		display: flex;
-		justify-content: space-between;
-		color: rgba(245, 245, 240, 0.58);
-		font-size: 0.65rem;
+	.project-company {
+		margin: 0 0 0.7rem;
+		color: var(--color-accent-secondary);
+		font-size: 0.68rem;
+		letter-spacing: 0.08em;
 		text-transform: uppercase;
 	}
 
-	.preview-grid {
-		position: absolute;
-		inset: 3.2rem 1rem 1rem;
-		background:
-			linear-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1px) 0 0 / 100% 2rem,
-			linear-gradient(90deg, rgba(255, 255, 255, 0.06) 1px, transparent 1px) 0 0 / 2rem 100%;
-		opacity: 0.65;
-	}
-
-	.preview-terminal {
-		position: absolute;
-		right: 1.25rem;
-		bottom: 1.25rem;
-		left: 1.25rem;
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
-		padding: 0.7rem 0.8rem;
-		border: 1px solid rgba(255, 255, 255, 0.11);
-		border-radius: 0.55rem;
-		background: rgba(16, 16, 16, 0.78);
-		color: var(--color-accent);
-		font-size: 0.66rem;
-		backdrop-filter: blur(9px);
-	}
-
 	.project-details {
-		padding-inline: 0.25rem;
+		padding-inline: 0;
 	}
 
 	h4 {
@@ -239,7 +168,7 @@ const timelineWork = [...selectedWork].sort((a, b) => b.startDate.localeCompare(
 
 	.project-description {
 		margin: 0.9rem 0 0;
-		padding-inline: 0.25rem;
+		padding-inline: 0;
 		color: var(--color-text-muted);
 		font-size: 0.76rem;
 		line-height: 1.6;
@@ -250,7 +179,7 @@ const timelineWork = [...selectedWork].sort((a, b) => b.startDate.localeCompare(
 		flex-wrap: wrap;
 		gap: 0.4rem;
 		margin-top: 0.9rem;
-		padding-inline: 0.25rem;
+		padding-inline: 0;
 	}
 
 	.project-tags span {
@@ -313,8 +242,5 @@ const timelineWork = [...selectedWork].sort((a, b) => b.startDate.localeCompare(
 			text-align: left;
 		}
 
-		.project-preview {
-			height: 14rem;
-		}
 	}
 </style>
