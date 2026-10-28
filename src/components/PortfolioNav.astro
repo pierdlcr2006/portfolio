@@ -1,3 +1,7 @@
+---
+import { Toggle } from '@starwind-ui/astro/toggle';
+---
+
 <a class="skip-link" href="#contenido">Saltar al contenido</a>
 
 <div class="nav-shell">
@@ -31,11 +35,9 @@
 				</a>
 			</li>
 			<li class="language-item">
-				<label class="language-control">
-					<span aria-hidden="true">ES</span>
-					<input id="language-toggle" type="checkbox" aria-label="Cambiar a inglés" />
-					<span aria-hidden="true">EN</span>
-				</label>
+				<Toggle.Root id="language-toggle" class="language-toggle" aria-label="Cambiar a inglés">
+					ES / EN
+				</Toggle.Root>
 			</li>
 		</ul>
 	</nav>
@@ -97,7 +99,7 @@
 
 	type Language = 'es' | 'en';
 	let currentLanguage: Language = 'es';
-	const languageToggle = document.querySelector<HTMLInputElement>('#language-toggle');
+	const languageToggle = document.querySelector<HTMLElement>('#language-toggle');
 
 	const applyLanguage = (language: Language) => {
 		currentLanguage = language;
@@ -118,7 +120,7 @@
 			if (label !== undefined) element.setAttribute('aria-label', label);
 		});
 
-		if (languageToggle) languageToggle.checked = language === 'en';
+		languageToggle?.setAttribute('aria-pressed', String(language === 'en'));
 		languageToggle?.setAttribute('aria-label', language === 'es' ? 'Cambiar a inglés' : 'Switch to Spanish');
 		document.title = language === 'es' ? 'Piero de la Cruz Palpa — Desarrollador Backend' : 'Piero de la Cruz Palpa — Backend Developer';
 
@@ -129,7 +131,10 @@
 		}
 	};
 
-	languageToggle?.addEventListener('change', () => applyLanguage(languageToggle.checked ? 'en' : 'es'));
+	languageToggle?.addEventListener('starwind:pressed-change', (event) => {
+		const { pressed } = (event as CustomEvent<{ pressed: boolean }>).detail;
+		applyLanguage(pressed ? 'en' : 'es');
+	});
 	try {
 		const storedLanguage = localStorage.getItem('portfolio-language');
 		if (storedLanguage === 'en') currentLanguage = 'en';
@@ -137,6 +142,7 @@
 		// Use Spanish when storage is unavailable.
 	}
 	applyLanguage(currentLanguage);
+	if (currentLanguage === 'en') languageToggle?.click();
 	updateNav();
 </script>
 
@@ -240,28 +246,30 @@
 		opacity: 1;
 	}
 
-	.language-control {
+	.language-toggle {
 		display: inline-flex;
 		align-items: center;
-		gap: 0.35rem;
+		justify-content: center;
+		min-width: 4.5rem;
+		min-height: 2rem;
+		padding: 0.35rem 0.55rem;
+		border: 1px solid rgba(255, 255, 255, 0.12);
+		border-radius: 999px;
+		background: transparent;
 		color: var(--color-text-muted);
 		font: inherit;
 		font-size: 0.62rem;
 		line-height: 1;
 		cursor: pointer;
-		transition: color var(--transition-fast);
+		transition: color var(--transition-fast), border-color var(--transition-fast), background-color var(--transition-fast);
 	}
 
-	.language-control:hover {
+	.language-toggle:hover,
+	.language-toggle:focus-visible,
+	.language-toggle[aria-pressed='true'] {
+		border-color: var(--color-accent-secondary);
+		background: rgba(168, 126, 255, 0.1);
 		color: var(--color-text);
-	}
-
-	.language-control input {
-		width: 1rem;
-		height: 1rem;
-		margin: 0;
-		accent-color: var(--color-accent);
-		cursor: pointer;
 	}
 
 	.nav-icon {
