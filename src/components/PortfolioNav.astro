@@ -31,12 +31,11 @@
 				</a>
 			</li>
 			<li class="language-item">
-				<button id="language-toggle" class="language-toggle" type="button" aria-label="Cambiar a inglés" aria-pressed="false">
-					<span class="language-option language-option-es" aria-hidden="true">ES</span>
-					<span class="language-divider" aria-hidden="true">/</span>
-					<span class="language-option language-option-en" aria-hidden="true">EN</span>
-					<span class="language-thumb" aria-hidden="true"></span>
-				</button>
+				<label class="language-control">
+					<span aria-hidden="true">ES</span>
+					<input id="language-toggle" type="checkbox" aria-label="Cambiar a inglés" />
+					<span aria-hidden="true">EN</span>
+				</label>
 			</li>
 		</ul>
 	</nav>
@@ -98,7 +97,7 @@
 
 	type Language = 'es' | 'en';
 	let currentLanguage: Language = 'es';
-	const languageToggle = document.getElementById('language-toggle');
+	const languageToggle = document.querySelector<HTMLInputElement>('#language-toggle');
 
 	const applyLanguage = (language: Language) => {
 		currentLanguage = language;
@@ -119,8 +118,7 @@
 			if (label !== undefined) element.setAttribute('aria-label', label);
 		});
 
-		languageToggle?.setAttribute('aria-pressed', String(language === 'en'));
-		languageToggle?.setAttribute('data-language', language);
+		if (languageToggle) languageToggle.checked = language === 'en';
 		languageToggle?.setAttribute('aria-label', language === 'es' ? 'Cambiar a inglés' : 'Switch to Spanish');
 		document.title = language === 'es' ? 'Piero de la Cruz Palpa — Desarrollador Backend' : 'Piero de la Cruz Palpa — Backend Developer';
 
@@ -131,7 +129,7 @@
 		}
 	};
 
-	languageToggle?.addEventListener('click', () => applyLanguage(currentLanguage === 'es' ? 'en' : 'es'));
+	languageToggle?.addEventListener('change', () => applyLanguage(languageToggle.checked ? 'en' : 'es'));
 	try {
 		const storedLanguage = localStorage.getItem('portfolio-language');
 		if (storedLanguage === 'en') currentLanguage = 'en';
@@ -242,63 +240,28 @@
 		opacity: 1;
 	}
 
-	.language-toggle {
-		position: relative;
-		display: grid;
+	.language-control {
+		display: inline-flex;
 		align-items: center;
-		grid-template-columns: 1fr auto 1fr;
-		width: 4.35rem;
-		height: 2rem;
-		padding: 0.2rem;
-		border: 1px solid rgba(255, 255, 255, 0.12);
-		border-radius: 999px;
-		background: transparent;
+		gap: 0.35rem;
 		color: var(--color-text-muted);
 		font: inherit;
 		font-size: 0.62rem;
 		line-height: 1;
 		cursor: pointer;
-		transition: color var(--transition-fast), border-color var(--transition-fast), background-color var(--transition-fast);
-	}
-
-	.language-toggle:hover,
-	.language-toggle[aria-pressed='true'] {
-		border-color: var(--color-accent-secondary);
-		background: rgba(168, 126, 255, 0.1);
-		color: var(--color-text);
-	}
-
-	.language-option,
-	.language-divider {
-		position: relative;
-		z-index: 1;
-		text-align: center;
 		transition: color var(--transition-fast);
 	}
 
-	.language-toggle[data-language='es'] .language-option-es,
-	.language-toggle[data-language='en'] .language-option-en {
-		color: var(--color-bg);
+	.language-control:hover {
+		color: var(--color-text);
 	}
 
-	.language-divider {
-		width: auto;
-		color: var(--color-text-muted);
-	}
-
-	.language-thumb {
-		position: absolute;
-		top: 0.2rem;
-		left: 0.2rem;
-		width: 1.8rem;
-		height: 1.6rem;
-		border-radius: 999px;
-		background: var(--color-accent);
-		transition: transform var(--transition-standard);
-	}
-
-	.language-toggle[data-language='en'] .language-thumb {
-		transform: translateX(2.15rem);
+	.language-control input {
+		width: 1rem;
+		height: 1rem;
+		margin: 0;
+		accent-color: var(--color-accent);
+		cursor: pointer;
 	}
 
 	.nav-icon {
@@ -340,19 +303,6 @@
 
 		.language-item {
 			margin-left: 0;
-		}
-
-		.language-toggle {
-			width: 4rem;
-			height: 2.2rem;
-		}
-
-		.language-thumb {
-			height: 1.8rem;
-		}
-
-		.language-toggle[data-language='en'] .language-thumb {
-			transform: translateX(1.85rem);
 		}
 
 		a {
