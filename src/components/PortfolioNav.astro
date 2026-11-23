@@ -1,41 +1,68 @@
 ---
 import { Toggle } from '@starwind-ui/astro/toggle';
+import { getRelativeLocaleUrl } from 'astro:i18n';
+import { getLang, useTranslations } from '../i18n/utils';
+
+const lang = getLang(Astro.currentLocale);
+const t = useTranslations(lang);
 ---
 
-<a class="skip-link" href="#contenido">Saltar al contenido</a>
+<a class="skip-link" href="#contenido">{t('nav.skip')}</a>
 
 <div class="nav-shell">
-	<nav id="main-nav" aria-label="Navegación principal">
-		<ul>
+	<nav id="main-nav" aria-label={t('nav.aria')}>
+		<button
+			id="menu-toggle"
+			class="menu-toggle"
+			type="button"
+			aria-expanded="false"
+			aria-controls="nav-menu"
+			aria-label={t('nav.openMenu')}
+			data-label-open={t('nav.openMenu')}
+			data-label-close={t('nav.closeMenu')}
+		>
+			<span class="menu-toggle-bar" aria-hidden="true"></span>
+			<span class="menu-toggle-bar" aria-hidden="true"></span>
+			<span class="menu-toggle-bar" aria-hidden="true"></span>
+		</button>
+		<ul id="nav-menu">
 			<li>
-				<a href="#home" aria-label="Inicio" data-label-es="Inicio" data-label-en="Home">
+				<a href="#home">
 					<span class="nav-indicator" aria-hidden="true"></span>
 					<span class="nav-icon" aria-hidden="true">
 						<svg viewBox="0 0 24 24"><path d="M21 20c0 .55-.45 1-1 1H4c-.55 0-1-.45-1-1V9.49c0-.31.14-.6.39-.79l8-6.22a1 1 0 0 1 1.23 0l8 6.22c.24.19.39.48.39.79V20ZM19 19V9.98L12 4.53 5 9.98V19h14Z" /></svg>
 					</span>
-					<span class="nav-label" data-i18n data-es="Inicio" data-en="Home">Inicio</span>
+					<span class="nav-label">{t('nav.home')}</span>
 				</a>
 			</li>
 			<li>
-				<a href="#projects" aria-label="Proyectos" data-label-es="Proyectos" data-label-en="Projects">
+				<a href="#projects">
 					<span class="nav-indicator" aria-hidden="true"></span>
 					<span class="nav-icon" aria-hidden="true">
 						<svg viewBox="0 0 24 24"><path d="M4 5v14h16V7h-8.41l-2-2H4Zm8.41 0H21c.55 0 1 .45 1 1v14c0 .55-.45 1-1 1H3c-.55 0-1-.45-1-1V4c0-.55.45-1 1-1h7.41l2 2Z" /></svg>
 					</span>
-					<span class="nav-label" data-i18n data-es="Proyectos" data-en="Projects">Proyectos</span>
+					<span class="nav-label">{t('nav.projects')}</span>
 				</a>
 			</li>
 			<li>
-				<a href="#contact" aria-label="Contacto" data-label-es="Contacto" data-label-en="Contact">
+				<a href="#contact">
 					<span class="nav-indicator" aria-hidden="true"></span>
 					<span class="nav-icon" aria-hidden="true">
 						<svg viewBox="0 0 24 24"><path d="M21.73 2.96 16.27 22.04c-.15.53-.48.55-.72.07L11 13 1.92 9.37c-.51-.2-.5-.51.03-.69l19.09-6.36c.53-.18.83.12.69.64ZM19.04 5.1 6.81 9.17l5.64 2.25 3.04 6.08L19.04 5.1Z" /></svg>
 					</span>
-					<span class="nav-label" data-i18n data-es="Contacto" data-en="Contact">Contacto</span>
+					<span class="nav-label">{t('nav.contact')}</span>
 				</a>
 			</li>
 			<li class="language-item">
-				<Toggle.Root id="language-toggle" class="language-toggle" aria-label="Cambiar a inglés">
+				<Toggle.Root
+					id="language-toggle"
+					class="language-toggle"
+					defaultPressed={lang === 'en'}
+					data-language={lang}
+					data-url-es={getRelativeLocaleUrl('es')}
+					data-url-en={getRelativeLocaleUrl('en')}
+					aria-label={t('nav.switchLanguage')}
+				>
 					<span class="language-option language-option-es" aria-hidden="true">ES</span>
 					<span class="language-divider" aria-hidden="true">/</span>
 					<span class="language-option language-option-en" aria-hidden="true">EN</span>
@@ -47,6 +74,8 @@ import { Toggle } from '@starwind-ui/astro/toggle';
 
 <script>
 	const nav = document.getElementById('main-nav');
+	const menuToggle = document.getElementById('menu-toggle');
+	const desktopQuery = window.matchMedia('(min-width: 768px)');
 	const maxScroll = 1000;
 	let rafId: number | null = null;
 
@@ -61,7 +90,8 @@ import { Toggle } from '@starwind-ui/astro/toggle';
 			const maxWidth = window.innerWidth * 0.8;
 			const currentWidth = maxWidth - (maxWidth - minWidth) * easeProgress;
 
-			if (window.innerWidth >= 768) nav.style.setProperty('width', `${currentWidth}px`);
+			if (desktopQuery.matches) nav.style.setProperty('width', `${currentWidth}px`);
+			else nav.style.removeProperty('width');
 		} else {
 			nav.classList.remove('scrolling');
 			nav.style.removeProperty('width');
@@ -76,10 +106,48 @@ import { Toggle } from '@starwind-ui/astro/toggle';
 		},
 		{ passive: true },
 	);
+	window.addEventListener('resize', updateNav);
+
+	// Menú hamburguesa (móvil)
+	const setMenuOpen = (open: boolean) => {
+		if (!nav || !menuToggle) return;
+		nav.classList.toggle('menu-open', open);
+		menuToggle.setAttribute('aria-expanded', String(open));
+		menuToggle.setAttribute('aria-label', (open ? menuToggle.dataset.labelClose : menuToggle.dataset.labelOpen) ?? '');
+	};
+	const isMenuOpen = () => menuToggle?.getAttribute('aria-expanded') === 'true';
+
+	menuToggle?.addEventListener('click', () => setMenuOpen(!isMenuOpen()));
+
+	// Cerrar al tocar fuera del menú
+	document.addEventListener('click', (event) => {
+		if (isMenuOpen() && nav && !nav.contains(event.target as Node)) setMenuOpen(false);
+	});
+
+	// Cerrar con Escape devolviendo el foco al botón
+	document.addEventListener('keydown', (event) => {
+		if (event.key === 'Escape' && isMenuOpen()) {
+			setMenuOpen(false);
+			menuToggle?.focus();
+		}
+	});
+
+	// Cerrar si el foco sale del menú (navegación con teclado)
+	nav?.addEventListener('focusout', (event) => {
+		const next = event.relatedTarget as Node | null;
+		if (next && !nav.contains(next)) setMenuOpen(false);
+	});
+
+	// Al pasar a escritorio el menú vuelve a su estado normal
+	desktopQuery.addEventListener('change', (event) => {
+		if (event.matches) setMenuOpen(false);
+		updateNav();
+	});
 
 	document.querySelectorAll<HTMLAnchorElement>('a[href^="#"]').forEach((anchor) => {
 		anchor.addEventListener('click', (event) => {
 			event.preventDefault();
+			setMenuOpen(false);
 			const targetId = anchor.getAttribute('href')?.substring(1) ?? '';
 			document.getElementById(targetId)?.scrollIntoView({ behavior: 'smooth' });
 		});
@@ -113,53 +181,19 @@ import { Toggle } from '@starwind-ui/astro/toggle';
 	window.addEventListener('resize', scheduleActiveSectionUpdate);
 	updateActiveSection();
 
-	type Language = 'es' | 'en';
-	let currentLanguage: Language = 'es';
+	// Cambio de idioma: carga la versión del sitio en el otro idioma (/ ↔ /en/),
+	// conservando la sección en la que está el usuario.
 	const languageToggle = document.querySelector<HTMLElement>('#language-toggle');
-
-	const applyLanguage = (language: Language) => {
-		currentLanguage = language;
-		document.documentElement.lang = language;
-
-		document.querySelectorAll<HTMLElement>('[data-i18n]').forEach((element) => {
-			const value = element.dataset[language];
-			if (value !== undefined) element.textContent = value;
-		});
-
-		document.querySelectorAll<HTMLInputElement | HTMLTextAreaElement>('[data-placeholder-es]').forEach((element) => {
-			const placeholder = element.dataset[`placeholder${language === 'es' ? 'Es' : 'En'}`];
-			if (placeholder !== undefined) element.placeholder = placeholder;
-		});
-
-		document.querySelectorAll<HTMLElement>('[data-label-es]').forEach((element) => {
-			const label = element.dataset[`label${language === 'es' ? 'Es' : 'En'}`];
-			if (label !== undefined) element.setAttribute('aria-label', label);
-		});
-
-		languageToggle?.setAttribute('aria-pressed', String(language === 'en'));
-		languageToggle?.setAttribute('data-language', language);
-		languageToggle?.setAttribute('aria-label', language === 'es' ? 'Cambiar a inglés' : 'Switch to Spanish');
-		document.title = 'Piero - Portafolio';
-
-		try {
-			localStorage.setItem('portfolio-language', language);
-		} catch {
-			// Storage can be unavailable in privacy-restricted contexts.
-		}
-	};
 
 	languageToggle?.addEventListener('starwind:pressed-change', (event) => {
 		const { pressed } = (event as CustomEvent<{ pressed: boolean }>).detail;
-		applyLanguage(pressed ? 'en' : 'es');
+		const destination = pressed ? languageToggle.dataset.urlEn : languageToggle.dataset.urlEs;
+		if (!destination) return;
+
+		const activeHash = navLinks.find((link) => link.classList.contains('active'))?.getAttribute('href');
+		window.location.assign(activeHash && activeHash !== '#home' ? `${destination}${activeHash}` : destination);
 	});
-	try {
-		const storedLanguage = localStorage.getItem('portfolio-language');
-		if (storedLanguage === 'en') currentLanguage = 'en';
-	} catch {
-		// Use Spanish when storage is unavailable.
-	}
-	applyLanguage(currentLanguage);
-	if (currentLanguage === 'en') languageToggle?.click();
+
 	updateNav();
 </script>
 
@@ -313,46 +347,138 @@ import { Toggle } from '@starwind-ui/astro/toggle';
 		fill: currentColor;
 	}
 
-	@media (max-width: 767px) {
-		:global(body) {
-			padding-bottom: 70px;
-		}
+	.menu-toggle {
+		display: none;
+	}
 
+	@media (max-width: 767px) {
 		nav,
 		nav.scrolling {
-			top: auto;
-			bottom: 0;
-			width: 100%;
-			border-color: rgba(255, 255, 255, 0.06);
-			border-radius: 1rem 1rem 0 0;
-			background: rgba(16, 16, 16, 0.94);
+			top: 0.75rem;
+			right: 0.75rem;
+			left: auto;
+			width: auto;
+			transform: none;
+			border: 0;
+			border-radius: 0;
+			background: transparent;
+			backdrop-filter: none;
 		}
 
-		ul {
-			justify-content: space-between;
-			gap: 1.5rem;
-			padding: 0.7rem 1.25rem;
+		.menu-toggle {
+			position: relative;
+			display: block;
+			width: 2.75rem;
+			height: 2.75rem;
+			margin-left: auto;
+			padding: 0;
+			border: 1px solid rgba(255, 255, 255, 0.06);
+			border-radius: 50%;
+			background: rgba(16, 16, 16, 0.94);
+			backdrop-filter: blur(18px);
+			color: var(--color-text);
+			cursor: pointer;
+			transition: border-color var(--transition-fast);
+		}
+
+		.menu-toggle:hover,
+		.menu-toggle[aria-expanded='true'] {
+			border-color: var(--color-accent);
+		}
+
+		.menu-toggle-bar {
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			width: 1.1rem;
+			height: 2px;
+			margin: -1px 0 0 -0.55rem;
+			border-radius: 2px;
+			background: currentColor;
+			transition: transform var(--transition-fast), opacity var(--transition-fast);
+		}
+
+		.menu-toggle-bar:nth-child(1) {
+			transform: translateY(-5px);
+		}
+
+		.menu-toggle-bar:nth-child(3) {
+			transform: translateY(5px);
+		}
+
+		.menu-toggle[aria-expanded='true'] .menu-toggle-bar:nth-child(1) {
+			transform: rotate(45deg);
+		}
+
+		.menu-toggle[aria-expanded='true'] .menu-toggle-bar:nth-child(2) {
+			opacity: 0;
+		}
+
+		.menu-toggle[aria-expanded='true'] .menu-toggle-bar:nth-child(3) {
+			transform: rotate(-45deg);
+		}
+
+		#nav-menu {
+			position: absolute;
+			top: calc(100% + 0.5rem);
+			right: 0;
+			flex-direction: column;
+			align-items: stretch;
+			justify-content: flex-start;
+			gap: 0.25rem;
+			width: min(17rem, calc(100vw - 1.5rem));
+			max-width: none;
+			margin: 0;
+			padding: 0.5rem;
+			border: 1px solid rgba(255, 255, 255, 0.06);
+			border-radius: 1rem;
+			background: rgba(16, 16, 16, 0.94);
+			backdrop-filter: blur(18px);
+			visibility: hidden;
+			opacity: 0;
+			transform: translateY(-0.5rem);
+			pointer-events: none;
+			transition: opacity var(--transition-fast), transform var(--transition-fast), visibility 0s linear var(--transition-fast);
+		}
+
+		nav.menu-open #nav-menu {
+			visibility: visible;
+			opacity: 1;
+			transform: translateY(0);
+			pointer-events: auto;
+			transition-delay: 0s;
 		}
 
 		li {
-			flex: 1;
-		}
-
-		.language-item {
-			margin-left: 0;
+			flex: none;
 		}
 
 		a {
-			flex-direction: column;
-			font-size: 0.68rem;
+			justify-content: flex-start;
+			gap: 0.75rem;
+			min-height: 2.75rem;
+			padding: 0 0.75rem 0 1.5rem;
+			font-size: 0.9rem;
 		}
 
 		.nav-icon {
 			display: flex;
+			width: 1.25rem;
+			height: 1.25rem;
 		}
 
 		.nav-indicator {
-			display: none;
+			left: 0.45rem;
+		}
+
+		.language-item {
+			margin: 0.25rem 0 0;
+			padding: 0.5rem 0.75rem 0.25rem;
+			border-top: 1px solid rgba(255, 255, 255, 0.06);
+		}
+
+		.language-toggle {
+			min-height: 2.75rem;
 		}
 	}
 </style>

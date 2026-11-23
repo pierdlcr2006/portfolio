@@ -1,10 +1,13 @@
 ---
 import { techLogos } from '../data/portfolio';
+import { getLang, useTranslations } from '../i18n/utils';
+
+const t = useTranslations(getLang(Astro.currentLocale));
 
 const technologies = techLogos;
 ---
 
-<section class="logo-wall" aria-label="Tecnologías con las que trabajo">
+<section class="logo-wall" aria-label={t('logos.aria')}>
 	<div class="logo-wall-fade logo-wall-fade-left" aria-hidden="true"></div>
 	<div class="logo-wall-fade logo-wall-fade-right" aria-hidden="true"></div>
 

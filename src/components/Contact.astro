@@ -1,21 +1,24 @@
 ---
 import { profile } from '../data/portfolio';
+import { getLang, useTranslations } from '../i18n/utils';
+
+const t = useTranslations(getLang(Astro.currentLocale));
 ---
 
 <section class="contact section" id="contact" aria-labelledby="contact-title">
 	<div class="container contact-layout">
 		<div class="contact-heading">
-			<p class="section-kicker" data-i18n data-es="Hablemos" data-en="Let's talk">Hablemos</p>
-			<h2 id="contact-title" data-i18n data-es="Contacto" data-en="Contact">Contacto</h2>
+			<p class="section-kicker">{t('contact.kicker')}</p>
+			<h2 id="contact-title">{t('contact.title')}</h2>
 		</div>
 
 		<div class="contact-body">
-			<p class="contact-copy" data-i18n data-es="¿Tienes una idea, un producto o un proyecto en mente? Escríbeme y conversemos." data-en="Do you have an idea, a product, or a project in mind? Write to me and let's talk.">¿Tienes una idea, un producto o un proyecto en mente? Escríbeme y conversemos.</p>
-			<p class="contact-location" data-i18n data-es="Disponible por LinkedIn o correo electrónico." data-en="Available on LinkedIn or email.">Disponible por LinkedIn o correo electrónico.</p>
+			<p class="contact-copy">{t('contact.copy')}</p>
+			<p class="contact-location">{t('contact.availability')}</p>
 
 			<div class="contact-links">
 				<a href={profile.linkedin} target="_blank" rel="noreferrer">LinkedIn ↗</a>
-				<a href={`mailto:${profile.email}`} data-i18n data-es="Enviar un correo ↗" data-en="Send an email ↗">Enviar un correo ↗</a>
+				<a href={`mailto:${profile.email}`}>{t('contact.email')}</a>
 			</div>
 		</div>
 	</div>
