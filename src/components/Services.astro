@@ -1,18 +1,22 @@
 ---
 import { services } from '../data/portfolio';
+import { getLang, useTranslations } from '../i18n/utils';
 import CodeEditor from './CodeEditor.astro';
+
+const lang = getLang(Astro.currentLocale);
+const t = useTranslations(lang);
 ---
 
 <section class="services section" id="services" aria-labelledby="services-title">
 	<div class="container services-layout">
 		<div class="services-list">
-			<p class="section-kicker" data-i18n data-es="Capacidades" data-en="Capabilities">Capacidades</p>
-			<h2 id="services-title" data-i18n data-es="¿Qué hago?" data-en="What I do?">¿Qué hago?</h2>
-			<ul class="capabilities-list" aria-label="Lista de capacidades">
+			<p class="section-kicker">{t('services.kicker')}</p>
+			<h2 id="services-title">{t('services.title')}</h2>
+			<ul class="capabilities-list" aria-label={t('services.listAria')}>
 				{services.map((service) => (
 					<li class="capability-item">
 						<span class="capability-marker" aria-hidden="true"></span>
-						<span data-i18n data-es={service.title} data-en={service.titleEn}>{service.title}</span>
+						<span>{lang === 'en' ? service.titleEn : service.title}</span>
 					</li>
 				))}
 			</ul>

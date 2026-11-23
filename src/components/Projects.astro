@@ -1,27 +1,31 @@
 ---
 import { selectedWork } from '../data/portfolio';
+import { getLang, useTranslations } from '../i18n/utils';
+
+const lang = getLang(Astro.currentLocale);
+const t = useTranslations(lang);
 
 const timelineWork = [...selectedWork].sort((a, b) => b.startDate.localeCompare(a.startDate));
 ---
 
 <section id="projects" class="projects section" aria-labelledby="projects-title">
 	<div class="container">
-		<p class="section-kicker" data-i18n data-es="Mi trabajo" data-en="My work">Mi trabajo</p>
-		<h3 id="projects-title" data-i18n data-es="Trayectoria profesional" data-en="Professional experience">Trayectoria profesional</h3>
+		<p class="section-kicker">{t('projects.kicker')}</p>
+		<h3 id="projects-title">{t('projects.title')}</h3>
 
 		<div class="projects-timeline">
 			{timelineWork.map((work) => (
 				<article class="project-card">
 					<div class="project-date">
-						<span class="timeline-date" data-i18n data-es={work.period} data-en={work.periodEn}>{work.period}</span>
+						<span class="timeline-date">{lang === 'en' ? work.periodEn : work.period}</span>
 					</div>
 					<div class="timeline-marker" aria-hidden="true"></div>
 					<div class="project-content">
 						<div class="project-details">
-							<h4 data-i18n data-es={work.title} data-en={work.titleEn}>{work.title}</h4>
+							<h4>{lang === 'en' ? work.titleEn : work.title}</h4>
 							<span>{work.company}</span>
 						</div>
-						<p class="project-description" data-i18n data-es={work.description} data-en={work.descriptionEn}>{work.description}</p>
+						<p class="project-description">{lang === 'en' ? work.descriptionEn : work.description}</p>
 						<div class="project-tags">
 							{work.tags.map((tag) => <span>{tag}</span>)}
 						</div>
