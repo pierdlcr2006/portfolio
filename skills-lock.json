@@ -1,0 +1,23 @@
+{
+  "version": 1,
+  "skills": {
+    "astro": {
+      "source": "astrolicious/agent-skills",
+      "sourceType": "github",
+      "skillPath": "skills/astro/SKILL.md",
+      "computedHash": "ebefe26b231d32379c14e41a46c2de7b4b0184543bedab7febdabe4fb21fba4e"
+    },
+    "portfolio": {
+      "source": "gauss314/skills",
+      "sourceType": "github",
+      "skillPath": "skills/portfolio/SKILL.md",
+      "computedHash": "1c996fbfe9ec953c3b91c624186f3c280feac9ff7a8b1acd0e0655047eb2d2eb"
+    },
+    "portfolio-section": {
+      "source": "leandropacsim/portafolio-matrix",
+      "sourceType": "github",
+      "skillPath": ".opencode/skills/portfolio-section/SKILL.md",
+      "computedHash": "43b3e536022668199c7edfa5415cf02b7248f7acd7d16564b740fc388f656679"
+    }
+  }
+}
